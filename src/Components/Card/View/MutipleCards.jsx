@@ -2,8 +2,15 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 
-import { useEffect, useState } from "react";
 
+import {useDispatch, useSelector} from"react-redux"
+import { useEffect, useState } from "react";
+import { addToCart} from "../../../Redux";
+
+import {NavLink,Route} from'react-router-dom'
+
+import { CardTra } from "@material-ui/icons";
+ 
 const SmallCardsStyle = styled.div`
   .flex {
     display: flex;
@@ -34,6 +41,11 @@ const SmallCardsStyle = styled.div`
  
   
   }
+
+  a{
+    color:black;
+    text-decoration: none;
+  }
   .Card-status{
     font-size: 16px;
     margin-left:1%;
@@ -52,7 +64,8 @@ const SmallCardsStyle = styled.div`
     
     padding:5px 0 0px 0;
     border-radius:10px 10px 0 0px;
-   
+    
+    margin-right: 5px;
  
     background:white;
     cursor: pointer;
@@ -89,13 +102,13 @@ const SmallCardsStyle = styled.div`
  
  
    max-width: 100%;
-    max-height: 100%;
+    max-height: 220px;
  
     
  }
  .Card-Price{
    position: relative;
-   font-size:22px;
+   font-size:16px;
    font-weight:300;
    margin:0 0px 5% 10%;
    text-align:left;
@@ -143,20 +156,33 @@ const SmallCardsStyle = styled.div`
   i{
     cursor: pointer;
   }
-  .fa-cart-arrow-down{
-
-    margin: 2% 0 2% 2%;
-    color: #fcfcfc;
-    background: #000000;
+  .Cart_button{
+ 
+  
+ 
+    color: #aec5c0;
+    background: #141414;
     border:2px solid #dbc3c3;;
     font-style:small;
-    width:80%;
-    padding:5% 5% 5% 5%;
+    width:50%;
+    text-align: center;
+    margin:0 25% 0 25%;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+
+    text-shadow: 2px 2px 8px #FF0000;
+   
   }
-  .fa-cart-arrow-down:hover{
+  .Cart_button:hover{
+    color: #dff777;
     transition:2s ease;
-    color:red;
-    transform: rotateY(360deg)
+    transform: rotateY(360deg);
+    border-color: #11f1e6;
+    background-color: #331d2a;
+
+    
+     
+   
+
 
   }
   #size0{
@@ -167,13 +193,13 @@ const SmallCardsStyle = styled.div`
   .Card-Extention{
     will-change: transform;
     transition: all 180ms ease-in;
-     
+     background-color: white;
 
     margin-top:-5%;
     z-index:100 ;
     width:100%;
     position:absolute ;
-    
+    padding-bottom: 5%;
     
     background:#ffffff;
    
@@ -190,7 +216,7 @@ const SmallCardsStyle = styled.div`
  
 
   .Card-Slider:hover{
-     
+
      .img-slider{
        transform: scale(1.05);
      }
@@ -198,11 +224,11 @@ const SmallCardsStyle = styled.div`
     
        border-top: none;
        height: 20%;
-       box-shadow: 7.5px 7px #535557;
+       box-shadow: 5px 6px #535557;
        
     
      }
-     box-shadow: 7.5px 7px #535557;
+     box-shadow: 5px 7px #535557;
    
  
       
@@ -331,13 +357,18 @@ input[type="radio"]:checked:after {
 
   }
 }
+.Add-cart{
+   position: relative;
+   margin-top: 10%;
+   width: 100%;
+}
 
 `;
 function MultipleCards(props) {
 
-
+    const dispatch= useDispatch()
   
-
+    const productitems=useSelector(state=>state)
 
   let img = props || [];
 
@@ -345,7 +376,7 @@ function MultipleCards(props) {
 
    
   const Dot=[0,1,2]
-   const Size=[img.Size.S.Name,img.Size.M.Name,img.Size.L.Name]
+   const Size=img.Size
  
    let  SideShow= img.Pic
    const [slider, setSlider] = useState(0);
@@ -368,47 +399,60 @@ function MultipleCards(props) {
    const SelectedSize=(indx)=>{
 
 
-      if(indx===0)
-      { 
-        setSelectedSize(0)
-        document.querySelector(`#size${indx}`).style.borderColor='hotpink'
-        document.querySelector(`#size1`).style.borderColor='gray'
-        document.querySelector(`#size2`).style.borderColor='gray'
+    Size.map((value,index)=>{
 
+
+      if(index===indx)
+      {
+        setSelectedSize(indx)
+        document.querySelector(`#size${index}`).style.borderColor="hotpink"
+  
       }
-      else if(indx===1)
-    
-      {  
-        setSelectedSize(1)
-        document.querySelector(`#size0`).style.borderColor='gray'
-         document.querySelector(`#size2`).style.borderColor='gray'
-        document.querySelector(`#size${indx}`).style.borderColor='hotpink'
-       
-
+      else
+      {
+        document.querySelector(`#size${index}`).style.borderColor="gray"
       }
 
-      else if(indx===2)
-      
-      {  setSelectedSize(2)
-          document.querySelector(`#size0`).style.borderColor='gray'
-         document.querySelector(`#size1`).style.borderColor='gray'
-         document.querySelector(`#size${indx}`).style.borderColor='hotpink'
-       
+    })
 
-      }
       
 
    }
 
 
-    
+
+   const AddtoCart=()=>{
+
+    let objitems={
+
+      name:img.Name+"_"+Size[selectedSize].Name,
+
+      price:Size[selectedSize],
+      img: SideShow[slider],
+      amount:0,
+
+    }
+
+    //global cart add items
  
+    dispatch(addToCart(objitems))
+
+   
+
+      
+  
+   }
+
+
+    
+   
+
 
 
   return (
     <SmallCardsStyle>
        
-      <Grid style={{marginTop:"30px"}}  container xs={2} className=" Card" 
+    <Grid style={{marginTop:"30px"}}  container={true} xs={2} className=" Card" 
        onMouseEnter={() => {
         setHoverExtend(1);  
        }}
@@ -416,7 +460,10 @@ function MultipleCards(props) {
         
         setHoverExtend(0);
        }}
+
+       
       >
+    
         <Grid className="  Card-Slider" 
             
           
@@ -437,7 +484,8 @@ function MultipleCards(props) {
         
             </Grid>
           </Grid>
-          <Grid className="flex col jus-center al-center Card-image">
+          <NavLink to={`/Products/${img.Name}`}>
+           <Grid className="flex col jus-center al-center Card-image">
           
           {SideShow.map((slide, indx) => {
           return (
@@ -451,34 +499,42 @@ function MultipleCards(props) {
               {indx === slider && <img className="img-slider" src={slide}></img>}
             </Grid>
           );
-        })}
+        })}  
           </Grid>
-          <Grid className="flex col Card-Price">{img.Name}   
-            <label className="Price" >{selectedSize==0?'$'+img.Size.S.Price:selectedSize==1?'$'+img.Size.M.Price:'$'+img.Size.L.Price}</label>
-            {img.Brand}
+          </NavLink>
+          <Grid className="flex  col Card-Price"><Grid className="flex jus-sp-between">{img.Name} {img.Brand}</Grid>
+            <label className="Price" >{Size[selectedSize].Price}</label>
+           
          {img.status==="Discount" ? <label className="Origin-rice"></label>:null}
           </Grid>
           <Grid className="flex Extend-area">
           { hoverExtend===1? <Grid className=" Card-Extention"  
          >
-            <Grid className="Card-Type">
-                <div>{img.Type}</div>
-            </Grid>
+            
 
-            <Grid className="flex jus-sp-between Card-Size">
+            <Grid className="flex jus-sp-between al-center Card-Size">
                {
 
                   Size.map((val,indx)=>{
 
-                    console.log(val)
-                    return <Grid {...val}  key={indx} id={'size'+indx} className="Size-button" onClick={()=>{SelectedSize(indx)}} >{val}</Grid>
+                   
+                    return <Grid {...val} md={2}  key={indx} id={'size'+indx} className="Size-button" onClick={()=>{SelectedSize(indx)}} >{val.Name}</Grid>
                   })
 
                }
-               
+              
+            
             </Grid>
-            <i class="fas fa-cart-arrow-down"> ADD TO CART </i>
+            <Grid  className="Cart_button" 
+            
+            onClick={()=>AddtoCart()}
+            
+            > ADD TO CART </Grid> 
 
+           
+        
+              
+       
          
            
 
@@ -488,9 +544,12 @@ function MultipleCards(props) {
           </Grid>
         </Grid>
       </Grid>
-   
+    
     </SmallCardsStyle>
   );
 }
 
-export default MultipleCards;
+
+
+ 
+export default  MultipleCards

@@ -4,20 +4,32 @@ import styled from "styled-components";
 import { Icon } from "@material-ui/core";
 import { useState } from "react";
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 
-const Header = styled.div`
+const Headerstyle = styled.div`
+  .Header {
+    height: 1%;
+    padding-top: 2%;
+  }
   .flex {
     display: flex;
+  }
+  .jus-end {
+    justify-content: flex-end;
   }
   .row {
     flex-direction: row;
@@ -28,8 +40,11 @@ const Header = styled.div`
   .just-center {
     justify-content: center;
   }
-  .jus-sp-betwen {
+  .sp-between {
     justify-content: space-between;
+  }
+  .sp-evenly {
+    justify-content: space-evenly;
   }
   .Logo {
     max-width: 150px;
@@ -38,6 +53,9 @@ const Header = styled.div`
     width: 150px;
     vertical-align: middle;
     border-style: none;
+  }
+  .border {
+    border: 1px solid red;
   }
   .top-label {
     color: #1349b2;
@@ -57,15 +75,19 @@ const Header = styled.div`
     cursor: pointer;
   }
 
+  .shop {
+  }
+
   .shop:hover {
   }
   .shadowmenu {
     background-color: white;
+    z-index: 100;
   }
   .shadow {
-    position: relative;
+    width: 100%;
+    position: absolute;
     opacity: 0;
-    z-index: 100;
   }
   ul {
   }
@@ -103,148 +125,246 @@ const Header = styled.div`
     width: 280px;
     justify-content: space-evenly;
     display: flex;
+  }
 
-    margin-top: 100px;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .MuiAppBar-colorPrimary {
+    color: black;
+    background: none;
+    position: relative;
+    display: none;
+  }
+
+  //Reponsive
+
+  @media screen and (max-width: 992px) {
+    .Header {
+      display: none;
+    }
+    .shadowmenu {
+      display: none;
+    }
+    .MuiAppBar-colorPrimary {
+      display: block;
+    }
   }
 `;
-function Headerpage() {
+function Header() {
+  const Menu = [
+    {
+      name: "SHOP",
+      to: "/Products",
+      onhover: true,
+      exact: true,
+    },
+
+    {
+      name: "CATEGORIRES",
+      to: "/Products",
+      onhover: false,
+      exact: true,
+    },
+
+    {
+      name: "MEGAMENU",
+      to: "/Megamenu",
+      onhover: false,
+      exact: true,
+    },
+    {
+      name: "WOMAN",
+      to: "/Produtcs/woman",
+      onhover: false,
+      exact: true,
+    },
+    {
+      name: "MEN",
+      to: "/Products/men",
+      exact: true,
+    },
+  ];
+
   const Showshadow = (number) => {
     if (number === 1) {
       document.querySelector(".shadow").style.opacity = "1";
-    } else document.querySelector(".shadow").style.opacity = "0";
+    }
+    if (number === 0) document.querySelector(".shadow").style.opacity = "0";
   };
 
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }));
+
+  const classes = useStyles();
+
+  // <span className="top-label" style={{ color: "red" }}>
+  //               Hot
+  //             </span>
+
   return (
-    <Header>
-      <div
-        style={{ display: "flex", padding: "2% 0% 0% 0", marginBottom: "0%" }}
-      >
-        <Grid container xs={2}></Grid>
-        <Grid container xs={2} md={2}>
-          <div className="Logo">
-            <img src="//cdn.shopify.com/s/files/1/1521/5776/t/90/assets/fastor4logo.png?v=10652948907752684887"></img>
-          </div>
+    <Router>
+      <Headerstyle>
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="menu"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                <Grid items={true} xs={1}>
+                  <div style={{ cursor: "pointer" }} className="Logo">
+                    <Link to="/">
+                      {" "}
+                      <img src="//cdn.shopify.com/s/files/1/1521/5776/t/90/assets/fastor4logo.png?v=10652948907752684887"></img>
+                    </Link>
+                  </div>
+                </Grid>
+              </Typography>
+              <Grid
+                container
+                xs={3}
+                className="flex jus-center sp-between sp-evenly"
+              >
+                <i className="fas fa-search"></i>
+                <i className="fas fa-heart"></i>
+                <i className="fas fa-cart-arrow-down"></i>
+              </Grid>
+            </Toolbar>
+          </AppBar>
+        </div>
+
+        <Grid container className=" flex jus-center Header">
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+          >
+            <Grid items={true} xs={1}></Grid>
+            <Link to="/">  <Grid items={true} xs={1}>
+              <div
+                style={{ cursor: "pointer" }}
+               
+                className="Logo"
+              >
+                <img src="//cdn.shopify.com/s/files/1/1521/5776/t/90/assets/fastor4logo.png?v=10652948907752684887"></img>
+              </div>
+          
+            </Grid>
+            </Link>
+            <Grid items={true} xs={1}></Grid>
+            <Grid
+              items={true}
+              md={5}
+              className="flex jus-center jus-sp-betwen Menu"
+            >
+
+            
+
+              {Menu.map((link, indx) => {
+                return (
+                  <Grid className="flex jus-center" items={true} xs={2}>
+                    <strong>
+                      {" "}
+                      <Link key={indx} to={link.to} exact={link.exact}>
+                        {link.name}
+                      </Link>
+                    </strong>
+                  </Grid>
+                );
+              })}
+            </Grid>
+
+            <Grid
+              items={true}
+              xs={2}
+              md={2}
+              className="flex jus-sp-betwen Icon"
+            >
+              <div></div>
+              <i className="fas fa-search"></i>
+              <i className="fas fa-heart"></i>
+
+              <i className="fas fa-user"></i>
+              <i className="fas fa-cart-arrow-down"></i>
+            </Grid>
+          </Grid>
+
+          <Grid items={true} xs={2}></Grid>
         </Grid>
         <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="center"
+          className="flex shadow"
+          onMouseLeave={() => {
+            Showshadow(0);
+          }}
         >
-          <Grid container xs={8} md={8} className="flex jus-sp-betwen">
-            <a></a>
+          <Grid xs={12} className="flex shadowmenu">
+            <Grid item={true} xs={2}></Grid>
+            <Grid item={true} xs={5} className="flex shadow-left   ">
+              <p className="shadow-title ">Men</p>
+              <div className="list">
+                <div>
+                  <li>{"JACKETS & COATS"}</li>
+                  <li>{"SUITS"}</li>
+                  <li>{"JEANS"}</li>
+                  <li>{"SWIMWEARS"}</li>
+                  <li>{"LOUNGWEARS"}</li>
+                  <li>{"T-SHRITS"}</li>
+                </div>
+                <div>
+                  <li>{"POLO SHRITS"}</li>
+                  <li>{"TRACKSUITS"}</li>
+                  <li>{"SHIRTS"}</li>
+                  <li>{"TROUSERS"}</li>
+                  <li>{"SHORTS"}</li>
+                  <li>{"UNDERWEAR"}</li>
+                </div>
+              </div>
+            </Grid>
 
-            <a
-              className="shop"
-              onMouseEnter={() => {
-                Showshadow(1);
-              }}
-              onMouseLeave={() => {
-                Showshadow(0);
-              }}
-            >
-              <strong>
-                <span>SHOP</span>
-              </strong>{" "}
-            </a>
-
-            <a>
-              {" "}
-              <span>
-                <strong>
-                  <span className="top-label">New</span>
-                  <span>CATEGORIRES</span>
-                </strong>
-              </span>
-            </a>
-            <a>
-              {" "}
-              <strong>
-                <span>MEGAMENU</span>
-              </strong>{" "}
-            </a>
-            <a>
-              <strong>
-                <span className="top-label" style={{ color: "red" }}>
-                  Hot
-                </span>
-                <span>PAGES</span>
-              </strong>
-            </a>
-            <a>
-              <strong>
-                <span>WOMEN</span>
-              </strong>
-            </a>
-            <a>
-              <strong>
-                <span>MEN</span>
-              </strong>{" "}
-            </a>
-          </Grid>
-
-          <Grid container xs={2} md={2} className="flex jus-sp-betwen">
-            <div></div>
-            <i className="fas fa-search"></i>
-            <i className="fas fa-heart"></i>
-            <i className="fas fa-user"></i>
-            <i className="fas fa-cart-arrow-down"></i>
+            <Grid container xs={7} className="flex shadow-right">
+              <p className="shadow-title ">Woman</p>
+              <div className="list">
+                <div>
+                  <li>{"JACKETS & COATS"}</li>
+                  <li>{"SUITS"}</li>
+                  <li>{"JEANS"}</li>
+                  <li>{"SWIMWEARS"}</li>
+                  <li>{"LOUNGWEARS"}</li>
+                  <li>{"T-SHRITS"}</li>
+                </div>
+                <div>
+                  <li>{"POLO SHRITS"}</li>
+                  <li>{"TRACKSUITS"}</li>
+                  <li>{"SHIRTS"}</li>
+                  <li>{"TROUSERS"}</li>
+                  <li>{"SHORTS"}</li>
+                  <li>{"UNDERWEAR"}</li>
+                </div>
+              </div>
+            </Grid>
+            <Grid container xs={1}></Grid>
           </Grid>
         </Grid>
-
-        <Grid xs={2}></Grid>
-      </div>
-      <Grid className="flex shadow">
-        <Grid xs={12} className="flex shadowmenu">
-          <Grid item={true} xs={2}></Grid>
-          <Grid item={true} xs={5} className="flex shadow-left   ">
-            <p className="shadow-title ">Men</p>
-            <div className="list">
-              <div>
-                <li>{"JACKETS & COATS"}</li>
-                <li>{"SUITS"}</li>
-                <li>{"JEANS"}</li>
-                <li>{"SWIMWEARS"}</li>
-                <li>{"LOUNGWEARS"}</li>
-                <li>{"T-SHRITS"}</li>
-              </div>
-              <div>
-                <li>{"POLO SHRITS"}</li>
-                <li>{"TRACKSUITS"}</li>
-                <li>{"SHIRTS"}</li>
-                <li>{"TROUSERS"}</li>
-                <li>{"SHORTS"}</li>
-                <li>{"UNDERWEAR"}</li>
-              </div>
-            </div>
-          </Grid>
-
-          <Grid container xs={7} className="flex shadow-right">
-            <p className="shadow-title ">Woman</p>
-            <div className="list">
-              <div>
-                <li>{"JACKETS & COATS"}</li>
-                <li>{"SUITS"}</li>
-                <li>{"JEANS"}</li>
-                <li>{"SWIMWEARS"}</li>
-                <li>{"LOUNGWEARS"}</li>
-                <li>{"T-SHRITS"}</li>
-              </div>
-              <div>
-                <li>{"POLO SHRITS"}</li>
-                <li>{"TRACKSUITS"}</li>
-                <li>{"SHIRTS"}</li>
-                <li>{"TROUSERS"}</li>
-                <li>{"SHORTS"}</li>
-                <li>{"UNDERWEAR"}</li>
-              </div>
-            </div>
-          </Grid>
-          <Grid container xs={1}></Grid>
-        </Grid>
-      </Grid>
-    </Header>
+      </Headerstyle>
+    </Router>
   );
 }
 
-export default Headerpage;
+export default Header;

@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+ 
 import { Grid } from "@material-ui/core";
 import styled from "styled-components";
-import { Icon } from "@material-ui/core";
+
 import { useState } from "react";
-import { Slide } from "react-slideshow-image";
-import { Animated } from "react-animated-css";
-import MultipleCards from "../../Components/MutipleCards";
+// import { Slide } from "react-slideshow-image";
+ 
+import MultipleCards from "../../Card/View/MutipleCards"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
  
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "./Home.css";
+import "../CSS/Home.css"
 
 const Homestyle = styled.div`
   @media screen and (max-width: 980px) {
@@ -437,7 +437,7 @@ function Home() {
       {console.log(screen)}
       <Homestyle>
         <Grid className="Home">
-          <Grid xs={12} className="flex Sideshow">
+          <Grid container={true} xs={12} className="flex Sideshow">
             <Carousel>
               {SideShow.map((val, indx) => {
                 return (
@@ -458,7 +458,7 @@ function Home() {
           </Grid>
 
           <Grid
-            container
+            container={true}
             xs={12}
             style={{ marginTop: "5px" }}
             className="flex jus-center    "
@@ -471,7 +471,7 @@ function Home() {
             </Grid>
           </Grid>
           <Grid
-            container
+            container={true}
             xs={12}
             className="flex jus-center jus-sp-between Body-Menu"
           >
@@ -483,23 +483,23 @@ function Home() {
               className="flex jus-center jus-sp-between"
             >
               <Grid style={{ margin: "0 0 0 2%" }} xs={2}>
-                <i class="fas fa-glasses"></i>
+                <i className="fas fa-glasses"></i>
               </Grid>
-              <Grid xs={2}>
+              <Grid items={true} xs={2}>
                 {" "}
-                <i class="fas fa-hat-cowboy"></i>{" "}
+                <i className="fas fa-hat-cowboy"></i>{" "}
               </Grid>
-              <Grid xs={2}>
+              <Grid items={true} xs={2}>
                 {" "}
-                <i class="fas fa-tshirt"></i>{" "}
+                <i className="fas fa-tshirt"></i>{" "}
               </Grid>
-              <Grid xs={2}>
+              <Grid items={true} xs={2}>
                 {" "}
-                <i class="fas fa-shopping-bag"></i>{" "}
+                <i className="fas fa-shopping-bag"></i>{" "}
               </Grid>
-              <Grid xs={2}>
+              <Grid items={true} xs={2}>
                 {" "}
-                <i class="fas fa-bell"></i>{" "}
+                <i className="fas fa-bell"></i>{" "}
               </Grid>
             </Grid>
           </Grid>
@@ -547,7 +547,7 @@ function Home() {
             </Grid> */}
           </Grid>
 
-          <Grid container className="Look-area">
+          <Grid container={true} className="Look-area">
             <Grid items={true}>
               <img
                 src="https://cdn.shopify.com/s/files/1/1521/5776/files/lookbook-bg_a06bc677-d029-4089-b917-f134d8b3b864.png?v=1602829064"
@@ -555,7 +555,7 @@ function Home() {
               ></img>
             </Grid>
 
-            <Grid container xs={12} className="Look-content">
+            <Grid container={true} xs={12} className="Look-content">
               <Grid items={true} xs={3} className="look-text">
                 <div id="look-title">LOOKBOOK</div>
                 <div id="look-subtitle">
@@ -611,7 +611,7 @@ function Home() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container xs={12} className="flex Discount-area jus-center ">
+          <Grid container={true} xs={12} className="flex Discount-area jus-center ">
             <Grid items={true} id="discount1" className="bd " xs={3}></Grid>
             <Grid items={true} id="discount2" className="bd" xs={3}></Grid>
             <Grid items={true} id="discount3" className="bd" xs={3}></Grid>
@@ -634,7 +634,7 @@ function Home() {
             </Grid>
           </Grid>
 
-          <Grid xs={12} container className="Filter">
+          <Grid xs={12} container={true} className="Filter">
             <Grid className="flex col al-center jus-center Filtet-content">
               <h3>ADVANCED FILTER </h3>
 
@@ -646,7 +646,7 @@ function Home() {
                 </label>
               </h3>
 
-              <Grid container className="flex">
+              <Grid container={true} className="flex">
                 <Grid items={true} xs={3}>
                   <select className="hidden">
                     <option className="first" value="">
@@ -702,7 +702,7 @@ function Home() {
           <Grid className="flex jus-center Collection">
             <h3>TOP 3</h3>
           </Grid>
-          <Grid container className="Top3 flex jus-center   ">
+          <Grid container={true} className="Top3 flex jus-center   ">
             {/* {top3.map((val, indx) => {
               return (
                 <Grid items={true}>
@@ -713,7 +713,7 @@ function Home() {
             })} */}
           </Grid>
 
-          <Grid container className="flex jus-center al-center  ">
+          <Grid container={true} className="flex jus-center al-center  ">
             <Grid items={true} xs={3} className="serviecslogan">
               <div>
                 <i class="fas fa-truck-moving"></i>&nbsp;FREE SHIPPING AND
@@ -738,7 +738,7 @@ function Home() {
             <h3>SHOP BY BRAND</h3>
           </Grid>
 
-          <Grid container className="flex Logobrand" xs={10}>
+          <Grid container={true} className="flex Logobrand" xs={10}>
             <Grid items={true} xs={2}>
               <img
                 className="w-100 lazyloaded"
@@ -778,7 +778,7 @@ function Home() {
               />
             </Grid>
           </Grid>
-          <Grid container className="flex Logobrand" xs={10}>
+          <Grid container={true} className="flex Logobrand" xs={10}>
             <Grid items={true} xs={2}>
               <img
                 className="w-100 lazyloaded"
@@ -822,7 +822,7 @@ function Home() {
           </Grid>
           <Grid className=" flex col  al-center jus-center Customersay">
             <h3>WHAT CUSTOMERS ARE SAYING</h3>
-            <Grid container xs={8} className="flex jus-center">
+            <Grid container={true} xs={8} className="flex jus-center">
               <Grid xs={3} className="comment-box">
                 Content 1
               </Grid>
@@ -836,7 +836,7 @@ function Home() {
           </Grid>
           <Grid className="flex col al-center jus-center Blog ">
             <h3>FROM THE BLOG</h3>
-            <Grid container xs={8} className="flex jus-center">
+            <Grid container={true} xs={8} className="flex jus-center">
               <Grid xs={3} className="comment-box">
                 Content 1
               </Grid>

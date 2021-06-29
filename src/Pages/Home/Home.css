@@ -1,0 +1,488 @@
+.flex {
+    display: flex;
+  }
+  .row {
+    flex-direction: row;
+  }
+  .col {
+    flex-direction: column;
+  }
+  .jus-end{
+      justify-content: flex-end;
+  }
+  .jus-center {
+    justify-content: center;
+  }
+  .jus-sp-betwen {
+    justify-content: space-between;
+  }
+  .jus-sp-around {
+    justify-content: space-around;
+  }
+  .al-center{
+    align-items:center;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  .bd{
+
+    border:1px solid rgb(228, 54, 54);
+  }
+  
+
+  .Home{
+    
+    
+    overflow: hidden;
+    width:100%;
+    height:auto;
+  }
+
+  .Sideshow {
+    
+  
+    width: 100%;
+    position: relative;
+ 
+    justify-content: center;
+    align-items: center;
+   
+
+  
+  }
+  .Content-box{
+      width: 30%;
+      margin: 5% 0 0 50%;
+    position:absolute;
+    
+ 
+
+  }
+
+  .slide-content{
+    font-family:"Time new roman";
+    color: white;
+     font-size: 6rem;
+  
+ 
+ 
+
+  }
+  .slide-subcontent{
+    
+    width: 100%;
+
+    font-size: 2.5rem;
+    background: white;
+    font-family:"Time new roman";
+  
+    color:#000000;
+ 
+  
+  
+ 
+  }
+
+  .slide-link{
+    width: 100%;
+    margin-top: 10%;
+    font-size: 1rem;
+      text-decoration:white;
+    
+    
+ 
+       
+     
+    color:white;
+    background:none;
+  
+
+  }
+  .slide-link:hover{
+   
+   
+    transform: scale(1.5);
+  }
+  .Slide {
+    width :100%;
+    opacity: 0;
+    transition-duration: 1s ease;
+  }
+  .Slide.active {
+    width :100%;
+    opacity: 1;
+    transform: scale(1);
+    transition-duration: 1s;
+  }
+
+  .btn {
+    height: 40px;
+    width: 40px;
+    background: none;
+    outline-style: none;
+    cursor: pointer;
+  }
+
+.thumbs-wrapper{
+
+  display:none;
+
+}
+  
+  .border-bl {
+    border: 1px solid black;
+  }
+  .button-side {
+    width: 100%;
+    position: absolute;
+  }
+
+  .banner{
+      width: 90%;
+      margin: 0 5% 0 5%;
+  }
+  .banner-box1 {
+ 
+    min-height: 270px;
+    margin-right:10px;
+    background:url("https://cdn.shopify.com/s/files/1/1521/5776/files/banner-men.png?v=1601009178%22") no-repeat center;
+  }
+  .banner-box2{
+   
+    min-height: 270px;
+    background:url("https://cdn.shopify.com/s/files/1/1521/5776/files/banner-women.png?v=1601010322") no-repeat center;
+  }
+  .Body-Menu {
+    margin-top:1%;
+    background: #f3f3f3;
+    height: 100px;
+  }
+  .fas > p {
+    font-size: 1.2rem;
+  }
+  .fas {
+    text-align: left;
+ 
+ 
+  }
+  a {
+    cursor: pointer;
+  }
+ 
+  .fa-glasses {
+    font-size: 2rem;
+    font-style: match;
+    margin-top: 10%;
+  }
+  .fa-hat-cowboy {
+    font-size: 2rem;
+    font-style: match;
+    margin-top: 10%;
+  }
+  .fa-shopping-bag {
+    font-size: 2rem;
+    font-style: match;
+    margin-top: 10%;
+  }
+  .fa-tshirt {
+    font-size: 2rem;
+    font-style: match;
+    margin-top: 10%;
+  }
+  .fa-bell {
+    font-size: 2rem;
+    font-style: match;
+    margin-top: 10%;
+  }
+
+  
+  .Product-tab{
+    height:60px;
+   
+    align-items:flex-end;
+    font-size:18px;
+    color:#aaa5a5;
+ 
+
+  } 
+
+  .Product-tab>div{
+    cursor:pointer;
+  }
+  #tab1{
+    cursor: pointer;
+  }
+  #tab0{
+
+    cursor: pointer;
+    color:black;
+
+  }
+
+  .Main-product{
+   
+    width: 100%;
+    background:#afafaf;
+   
+    
+ 
+   
+ 
+   
+  }
+  .Main-product-container{
+       
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+  }
+
+  .product-items{
+    /* margin:1%; */
+}
+   .Look-image{
+       position: relative;
+    width: 100%;
+    height:524px;
+    background:url("https://cdn.shopify.com/s/files/1/1521/5776/files/lookbook-bg_a06bc677-d029-4089-b917-f134d8b3b864.png?v=1602829064")  ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  
+
+  .look-text{
+    position:absolute;
+ 
+     margin: 15% 0 0 2%;
+    color:#f5e7e7;
+
+  }
+  #look-title{
+    font-size: 5rem;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  #look-subtitle{
+    font-size: 2rem;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  .Demo-img{
+    background-color:#fc1d1d;
+    width:25px;
+    height:30px;
+    text-align:center;
+    color:white;
+   cursor:pointer;
+  
+  }
+ 
+  #demoimg1{
+    position:relative;
+    right: 25%;
+    opacity:0;
+    visibility: hidden;
+
+  }
+  #demoimg2{
+    position:relative;
+    top:-10%;
+    right: 100%;
+    opacity:0;
+    visibility: hidden;
+    
+  }
+  #demoimg3{
+    position:relative;
+    top:25%;
+    right: 75%;
+    opacity:0;
+    z-index: 100;
+    height: 100%;
+    visibility: hidden;
+ 
+  }
+
+  #demoplace1{
+    top:10%;
+      left:45%;
+    height:20px;
+    position:absolute;
+  
+  
+  
+  }
+
+  #demoplace2{ 
+      top:5%;
+    left:81%;
+    height:20px;
+    position:absolute;
+ 
+
+  
+ 
+   
+  }
+  #demoplace3{ 
+      top:59%;
+    left:82%;
+    height:20px;
+    position:absolute;
+    
+
+     
+ 
+   
+  }
+
+
+  .Look-content{
+
+    
+    width: 100%;
+    height: 100%;
+    position: absolute;
+     
+   
+
+  }
+  .Look-area{
+    position: relative;
+  }
+
+  .Discount-area{
+   
+    position:  relative;
+    margin-top:0.5%;
+    
+
+
+  }
+
+  .Collection{
+    
+   
+     
+    justify-content: center;
+   
+    background:#afafaf;
+  }
+  .Collection-wrapper{
+    padding: 0 5% 0 5%;
+    justify-content: center;
+    justify-content: space-evenly;
+
+  }
+  #discount1{
+    
+    min-height:240px;
+  
+
+    background:url("https://cdn.shopify.com/s/files/1/1521/5776/files/Rectangle_1108-3.png?v=1603048744")
+  }
+
+  #discount2{
+
+    margin:0 0.5% 0 0.5%;
+
+    background:url("https://cdn.shopify.com/s/files/1/1521/5776/files/Rectangle_1108-2.png?v=1603048975");
+
+     
+
+  
+
+ 
+}
+
+#discount3{
+
+background:url("https://cdn.shopify.com/s/files/1/1521/5776/files/Rectangle_1108.png?v=1603049088")
+}
+
+
+
+.Filter{
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  font-size: 20px;
+  margin:2% 0% 0 0%;
+ 
+  min-height: 220px;
+  background: url("https://cdn.shopify.com/s/files/1/1521/5776/files/advanced_filter.png?v=1603083116")   no-repeat center;
+ 
+}
+.Filtet-content{
+ 
+}
+.hidden{
+  font-weight:bold;
+  font-size: 16px;
+  width:100%;
+  background-color: black;
+  color:white;
+  min-height:30px;
+  outline-style: none;
+  margin: 0 2% 0 2%;
+
+
+}
+ 
+
+.btnSREACH{
+
+  cursor:pointer;
+  color:yellow;
+  background-color: #383636;
+  margin-left: 2%;
+  outline-style: none;
+}
+
+.btnSREACH:hover{
+
+ padding: 10px;
+
+}
+ 
+ h3{
+  font-size: 22px;
+  font-weight: 400;
+ } 
+
+.serviecslogan{
+ 
+ text-align: center;
+  background-color: #afaaaa;
+
+}
+
+.fa-truck-moving{
+  color: #e2c4b8;
+  
+}
+ 
+.Logobrand{
+
+  margin: 0 20% 0 15%;
+  width: 100%;
+}
+
+
+.comment-box{
+  text-align: center;
+  margin:0 2% 0 2%;
+  height: 250px;
+  border:1px solid;
+}
+ 
+
+
+ .w-100{
+ 
+ }

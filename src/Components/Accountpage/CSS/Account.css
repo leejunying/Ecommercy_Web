@@ -1,0 +1,40 @@
+.flex {
+    display: flex;
+  }
+  .row {
+    flex-direction: row;
+  }
+  .col {
+    flex-direction: column;
+  }
+  .jus-center {
+    justify-content: center;
+  }
+  .jus-start{
+      justify-content: flex-start;
+  }
+  .jus-end{
+      justify-content: flex-end;
+  }
+  .al-center{
+    align-items:center;
+  }
+  .sp-between {
+    justify-content: space-between;
+  }
+  .sp-evenly{
+      justify-content: space-evenly;
+  }
+  .sp-around{
+      justify-content: space-around;
+  }
+  .bd{
+    border:1px solid red;
+  }
+  .Account-option{
+
+    width: 70%;
+    margin:3% 15% 3% 15%; 
+    padding:3%;
+
+  }

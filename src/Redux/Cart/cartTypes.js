@@ -1,0 +1,5 @@
+export const ADD_TOCART = 'ADD_TOCART'
+
+export const INCREASE_CART='INCREASE_CART'
+export const  DECREASE_CART='DECREASE_CART'
+ 
