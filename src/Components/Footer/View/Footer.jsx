@@ -49,9 +49,11 @@ h4{
 .Footer{
 
 
- 
+   
+   position: relative;
    padding:5% 0 5% 0;
    background:#1a1a1a;
+   
 
 
 }

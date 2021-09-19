@@ -1,19 +1,18 @@
 import React, { useEffect } from "react";
- 
+
 import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 import { useState } from "react";
 // import { Slide } from "react-slideshow-image";
- 
-import MultipleCards from "../../Card/View/MutipleCards"
+
+import MultipleCards from "../../Card/View/MutipleCards";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
- 
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "../CSS/Home.css"
+import "../CSS/Home.css";
 
 const Homestyle = styled.div`
   @media screen and (max-width: 980px) {
@@ -227,96 +226,7 @@ function Home() {
   let boximg2 =
     "https://cdn.shopify.com/s/files/1/1521/5776/files/banner-women.png?v=1601010322";
 
-  let product1 = {
-    status: "Discount",
-    discountnum: "18",
-    S: { name: "S", price: "135" },
-    M: { name: "M", price: "155" },
-    L: { name: "L", price: "195" },
-    pic1: "https://cdn.shopify.com/s/files/1/1521/5776/products/apple_cinema_30_6c34d526-40b2-4948-9149-016a7676b21d_720x.jpg?v=1570332862",
-    pic2: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_2@2x.jpg?v=1606026031",
-    pic3: "//cdn.shopify.com/s/files/1/1521/5776/products/samsung_tab_1_80b59129-aa37-4451-a296-c4a7d257df20.jpg?v=1606026031",
-    type: "T-Shirt",
-    name: "Summer-01",
-  };
-
-  let product2 = {
-    status: "New",
-    discountnum: "",
-    S: { name: "S", price: "145" },
-    M: { name: "M", price: "155" },
-    L: { name: "L", price: "205" },
-    pic1: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_1_360x.jpg?v=1570332862",
-    pic2: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_2_880cd3dd-0125-4844-b643-a245a9bed8d4@2x.jpg?v=1571708481",
-    pic3: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_3@2x.jpg?v=1571708481",
-    type: "T-Shirt",
-    name: "Summer-02",
-  };
-  let product3 = {
-    status: "New",
-    discountnum: "",
-    S: { name: "S", price: "145" },
-    M: { name: "M", price: "155" },
-    L: { name: "L", price: "205" },
-    pic1: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_1_360x.jpg?v=1570332862",
-    pic2: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_2_880cd3dd-0125-4844-b643-a245a9bed8d4@2x.jpg?v=1571708481",
-    pic3: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_3@2x.jpg?v=1571708481",
-    type: "T-Shirt",
-    name: "Summer-02",
-  };
-  let product4 = {
-    status: "New",
-    discountnum: "",
-    S: { name: "S", price: "145" },
-    M: { name: "M", price: "155" },
-    L: { name: "L", price: "205" },
-    pic1: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_1_360x.jpg?v=1570332862",
-    pic2: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_2_880cd3dd-0125-4844-b643-a245a9bed8d4@2x.jpg?v=1571708481",
-    pic3: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_3@2x.jpg?v=1571708481",
-    type: "T-Shirt",
-    name: "Summer-02",
-  };
-
   //Look demo image
-
-  let demo1 = {
-    status: "New",
-    discountnum: "",
-    S: { name: "S", price: "145" },
-    M: { name: "M", price: "155" },
-    L: { name: "L", price: "205" },
-    pic1: "https://cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_180x.jpg?v=1570332862%20180w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_360x.jpg?v=1570332862%20360w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_540x.jpg?v=1570332862%20540w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_720x.jpg?v=1570332862%20720w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_900x.jpg?v=1570332862%20900w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_1080x.jpg?v=1570332862%201080w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_1296x.jpg?v=1570332862%201296w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_1512x.jpg?v=1570332862%201512w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_1728x.jpg?v=1570332862%201728w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_1_f8b9233b-00bb-4a6f-98c2-ca3d15232265_2048x.jpg?v=1570332862%202048w",
-    pic2: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_2_880cd3dd-0125-4844-b643-a245a9bed8d4@2x.jpg?v=1571708481",
-    pic3: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_3@2x.jpg?v=1571708481",
-    type: "T-Shirt",
-    name: "Summer-04",
-  };
-
-  let demo2 = {
-    status: "Discount",
-    discountnum: "20",
-    S: { name: "S", price: "145" },
-    M: { name: "M", price: "155" },
-    L: { name: "L", price: "205" },
-    pic1: "https://cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_180x.jpg?v=1570332861%20180w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_360x.jpg?v=1570332861%20360w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_540x.jpg?v=1570332861%20540w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_720x.jpg?v=1570332861%20720w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_900x.jpg?v=1570332861%20900w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_1080x.jpg?v=1570332861%201080w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_1296x.jpg?v=1570332861%201296w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_1512x.jpg?v=1570332861%201512w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_1728x.jpg?v=1570332861%201728w,%20//cdn.shopify.com/s/files/1/1521/5776/products/ipod_classic_3_7ff3b868-03da-47ad-8c45-286be9d14837_2048x.jpg?v=1570332861%202048w",
-    pic2: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_2_880cd3dd-0125-4844-b643-a245a9bed8d4@2x.jpg?v=1571708481",
-    pic3: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_3@2x.jpg?v=1571708481",
-    type: "T-Shirt",
-    name: "Summer-04",
-  };
-
-  let demo3 = {
-    status: "New",
-    discountnum: "",
-    S: { name: "S", price: "145" },
-    M: { name: "M", price: "155" },
-    L: { name: "L", price: "205" },
-    pic1: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_3@2x.jpg?v=1571708481",
-    pic2: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_2_880cd3dd-0125-4844-b643-a245a9bed8d4@2x.jpg?v=1571708481",
-    pic3: "https://cdn.shopify.com/s/files/1/1521/5776/products/canon_eos_5d_3@2x.jpg?v=1571708481",
-    type: "T-Shirt",
-    name: "Summer-04",
-  };
 
   //Look backgound image
 
@@ -342,93 +252,36 @@ function Home() {
 
   const SideShow = [img1, img2, img3];
   const length = SideShow.length;
-  let featured = [
-    product2,
-    product1,
-    product3,
-    product4,
-    product1,
-    product2,
-    product3,
-    product4,
-  ];
-  let product = [
-    product1,
-    product2,
-    product3,
-    product4,
-    product1,
-    product2,
-    product3,
-    product4,
-  ];
-  let collection = [product1, product2, product3, product4];
-  let top3 = [product1, product2, product3];
 
   //////////////////////////////////////////////
 
   //State control
   const [slider, setSlider] = useState(0);
-  const [tab, setTab] = useState(0);
 
   //Function control///////////////////////
   //Tab selected
-  const selectedTab = (num) => {
-    if (num === 0) {
-      document.querySelector("#tab0").style.color = "black";
-      document.querySelector("#tab1").style.color = "#aaa5a5";
 
-      setTab(0);
-    } else if (num === 1) {
-      document.querySelector("#tab0").style.color = "#aaa5a5";
-      document.querySelector("#tab1").style.color = "black";
-      setTab(1);
-    }
-  };
-  //Slider function
-  const ControlSilder = (type) => {
-    let a = slider;
+  const [tab, setTab] = useState({
+    style1: {
+      color: "black",
+    },
 
-    if (type == "pre") {
-      console.log(a);
-      setSlider(a === 0 ? 0 : a - 1);
-    } else if (type == "aft") {
-      {
-        setSlider(a === length - 1 ? 0 : a + 1);
-      }
-    }
-  };
+    style2: {
+      color: "#aaa5a5",
+    },
+  });
 
-  //Hover Demo image
-  // const Hoverdemo = (place, num) => {
-  //   if (place === 0 && num === 0) {
-  //     document.querySelector("#demoimg1").style.opacity = "1";
+  //old code
+  // const selectedTab = (num) => {
+  //   if (num === 0) {
+  //     document.querySelector("#tab0").style.color = "black";
+  //     document.querySelector("#tab1").style.color = "#aaa5a5";
 
-  //     document.querySelector("#demoimg1").style.visibility = "visible";
-  //   }
-  //   if (place === 0 && num === 1) {
-  //     document.querySelector("#demoimg1").style.opacity = "0";
-
-  //     document.querySelector("#demoimg1").style.visibility = "hidden";
-  //   }
-
-  //   if (place === 1 && num === 0) {
-  //     document.querySelector("#demoimg2").style.opacity = "1";
-  //     document.querySelector("#demoimg2").style.visibility = "visible";
-  //   }
-
-  //   if (place === 1 && num === 1) {
-  //     document.querySelector("#demoimg2").style.opacity = "0";
-  //     document.querySelector("#demoimg2").style.visibility = "hidden";
-  //   }
-
-  //   if (place === 2 && num === 0) {
-  //     document.querySelector("#demoimg3").style.opacity = "1";
-  //     document.querySelector("#demoimg3").style.visibility = "visible";
-  //   }
-  //   if (place === 2 && num === 1) {
-  //     document.querySelector("#demoimg3").style.opacity = "0";
-  //     document.querySelector("#demoimg3").style.visibility = "hidden";
+  //     setTab(0);
+  //   } else if (num === 1) {
+  //     document.querySelector("#tab0").style.color = "#aaa5a5";
+  //     document.querySelector("#tab1").style.color = "black";
+  //     setTab(1);
   //   }
   // };
 
@@ -505,11 +358,38 @@ function Home() {
           </Grid>
 
           <Grid container xs={12} className="flex jus-center Product-tab">
-            <div id="tab0" onClick={() => selectedTab(0)}>
+            <div
+              style={tab.style1}
+              id="tab0"
+              onClick={() =>
+                setTab({
+                  style1: {
+                    color: "black",
+                  },
+
+                  style2: {
+                    color: "#aaa5a5",
+                  },
+                })
+              }
+            >
               PRODUCTS TAB{" "}
             </div>{" "}
             <div style={{ width: "20px" }}></div>{" "}
-            <div onClick={() => selectedTab(1)} id="tab1">
+            <div
+              style={tab.style2}
+              onClick={() =>
+                setTab({
+                  style1: {
+                    color: "#aaa5a5",
+                  },
+
+                  style2: {
+                    color: "black",
+                  },
+                })
+              }
+            >
               FEATURED
             </div>
           </Grid>
@@ -611,7 +491,11 @@ function Home() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container={true} xs={12} className="flex Discount-area jus-center ">
+          <Grid
+            container={true}
+            xs={12}
+            className="flex Discount-area jus-center "
+          >
             <Grid items={true} id="discount1" className="bd " xs={3}></Grid>
             <Grid items={true} id="discount2" className="bd" xs={3}></Grid>
             <Grid items={true} id="discount3" className="bd" xs={3}></Grid>

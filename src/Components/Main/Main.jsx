@@ -8,7 +8,12 @@ import Products from "../Productspage/View/Products";
 import Carddetail  from "../Carddetail/View/Carddetail";
 
 import Account from "../Accountpage/View/Account"
- 
+
+import Checkout from "../Checkoutpage/View/Checkout"
+
+import Profilepage from "../Profile/View/Profile"
+
+  
     const Main=[
 
         {
@@ -31,19 +36,24 @@ import Account from "../Accountpage/View/Account"
         
         {
 
-           patch:'/Account',
+            path:'/Account',
            exact:true,
            main:()=><Account></Account>
 
 
         },
         {
-            patch:'/Account/:name',
+            path:'/Checkout',
             exact:true,
-            main:({match})=><Account match={match}></Account>
+            main:()=><Checkout></Checkout>
 
-        }
-        
+        },
+        {
+            path:'/Profile',
+            exact:true,
+            main:()=><Profilepage></Profilepage>
+        },
+       
 
 
 

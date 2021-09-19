@@ -20,7 +20,7 @@ function App() {
 
 
 const Loadcomponents=(routes)=>{
-
+  
   var result = [];
 
 
@@ -57,8 +57,7 @@ const Loadcomponents=(routes)=>{
 
 }
 
-
-
+ 
 
   return (
     <Provider store={store}>
@@ -69,9 +68,9 @@ const Loadcomponents=(routes)=>{
     <Header></Header>
      <Switch>
 
-   
+    
     {
-
+     
         Loadcomponents(Main)
     }
 

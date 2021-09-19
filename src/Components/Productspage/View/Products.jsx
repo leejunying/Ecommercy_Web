@@ -399,7 +399,7 @@ const handleChange_Brand = (event,value) => {
   return (
     <Productstyle>
       <Grid className={loading === 1 ? "Loading" : null}>
-        {loading === 1 ? <img className="Roll" src={imageloading}></img> : null}
+        {loading === 1 ? <Grid className="loader"></Grid> : null}
       </Grid>
 
       <Grid className="Product">

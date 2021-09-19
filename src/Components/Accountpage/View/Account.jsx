@@ -7,24 +7,28 @@ import "../CSS/Account.css";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from "axios";
-import {gettoken,saveinfo} from "../../../Redux"
-import { useHistory, useLocation } from "react-router-dom";
+import {gettoken,saveinfo,updatehistory,getlovelist} from "../../../Redux"
+import { useHistory, useLocation,Link } from "react-router-dom";
 import Profilepage from "../../Profile/View/Profile"
 import emailjs from 'emailjs-com';
+import socketIOClient from "socket.io-client";
+
 const Account = () => {
 
+  const host = "http://localhost:4000";
   const dispatch=useDispatch()
   const token = useSelector(state=>state.tokenReducer.token)||[]
   const info=useSelector(state=>state.tokenReducer.infodata)
 
- 
-
+  const [resetmes,setResetmes]=useState("")
+  const [resetmail,setResetmail]=useState("")
+  
   const history=useHistory()
   const pathname = window.location.pathname;
- 
+  const [showforgot,setShowforgot]=useState(false)
   const [resultreg,setResultreg]=useState("")
   const [resultlog,setResultlog]=useState("")
-  const [regfristname,setRegfristname]=useState({
+  const [regfirstname,setRegfirstname]=useState({
 
     value:"",
     error:false,
@@ -72,14 +76,6 @@ const Account = () => {
 
  
 
-  useEffect(()=>{
-
-
-   
-
-
-  },[])
-
 
   //Function//////////////////////////
 ///Send feedback
@@ -99,11 +95,11 @@ const Account = () => {
 
  
 
-    if(type=="frist")
+    if(type=="first")
     {
       
       
-      setRegfristname(prevState => ({
+      setRegfirstname(prevState => ({
         ...prevState,
         error:false,
         notice:"",
@@ -146,13 +142,54 @@ const Account = () => {
 
   }
 
+const onChangeSendMail=(e)=>{
+
+
+  setResetmes("")
+  setResetmail(e.target.value)
+
+
+}
+ 
+
+
+ const Sendreset=()=>{
+
+  
+  axios.post('http://localhost:4000/account/reset', 
+   {
+    
+    Email:resetmail
+
+   }
+)
+ .then((res) => {
+   return res.data;
+ })
+ .then((mess) => {
+
+  if(mess.message==true)
+  {
+
+    setResetmes("Your email now recieve reset mail")
+    setResetmail("")
+  
+
+  }
+ })
+ 
+ .catch((error) => {
+   console.error(error);
+ });
 
 
 
+ }
   
   const Register=(value)=>{
     
-    
+     
+
     axios.post('http://localhost:4000/account/signup', 
      value
 )
@@ -163,8 +200,8 @@ const Account = () => {
       
 
       if(mess.status==true)
-      {
-       
+      { 
+        
         setReglastname(prevState => ({
           ...prevState,
           error:false,
@@ -178,7 +215,7 @@ const Account = () => {
     }));
 
 
-    setRegfristname(prevState => ({
+    setRegfirstname(prevState => ({
       ...prevState,
       error:false,
       value:"",
@@ -209,6 +246,39 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
 
  }
 
+
+ const Getlovelist = (email, data) => {
+  axios
+   .post("http://localhost:4000/account/lovelist", {
+     email: email,
+     lovelist: data,
+   })
+   .then((res) => {
+     return res.data;
+   })
+   .then((data) => { 
+
+    let list=[]
+     for(let value of data)
+    { 
+
+
+      for(let value2 of value)
+      {
+        list.push(value2)
+      }
+
+    }
+
+    console.log(list)
+  
+ dispatch(getlovelist(list))})
+
+   .catch((error) => {
+     console.error(error);
+   });
+};
+
  const Profile=(token)=>{
 
 
@@ -225,9 +295,17 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
   })
   .then((data) => {
     
+
     dispatch(saveinfo(data))
-    history.push(pathname+info[0].Email)
-   
+    
+    dispatch(updatehistory(data[0].History))
+
+    
+    Getlovelist(data[0].Email,data[0].Lovelist)
+
+    window.location.assign("\Profile",1500)
+
+    
   }
 
   )
@@ -250,11 +328,13 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
     return res.data;
   })
   .then((mess) => {
-    if(mess.message!=false)
+    if(mess.message==true)
     {setResultlog("You is login")
 
-    dispatch(gettoken(mess.message))
-    Profile(mess.message)
+    console.log(mess)
+     dispatch(gettoken(mess.token))
+    Profile(mess.token)
+
 
     setLogemail(prevState => ({
       ...prevState,
@@ -272,7 +352,7 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
   }
   else{
 
-    setResultlog("Your email or password not correct")
+    setResultlog("Your email or password not correct ")
      
 
    
@@ -292,7 +372,7 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
  const validate=(type)=>{
 
 
-    let errfrist={error:false,notice:""}
+    let errfirst={error:false,notice:""}
     let errlast={error:false,notice:""}
     let erremail={error:false,notice:""}
     let errpassword={error:false,notice:""}
@@ -301,16 +381,16 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
 
     if(type=="reg")
     {
-    if(regfristname.value.length==0)
-    errfrist={error:true,notice:"Frist name is empty"}
+    if(regfirstname.value.length==0)
+    errfirst={error:true,notice:"First name is empty"}
     if( reglastname.value.length==0)
     errlast={error:true,notice:"Last name is empty"}
     if(regemail.value.length==0)
     erremail={error:true,notice:"Email is empty"}
     if( regpassword.value.length==0)
     errpassword={error:true,notice:"Password is empty"}
-    if(regfristname.value.length>12)
-    errfrist={error:true,notice:"Frist name too long"}
+    if(regfirstname.value.length>12)
+    errfirst={error:true,notice:"First name too long"}
     if(reglastname.value.length>0 && reglastname.value.length<4)
     errlast={error:true,notice:"Last name too short"}
     if(reglastname.value.length>20)
@@ -356,7 +436,7 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
 
     return {
 
-      errfrist:errfrist,
+      errfirst:errfirst,
       errlast:errlast,
       erremail:erremail,
       errpassword:errpassword
@@ -372,7 +452,7 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
     
    let error= validate("reg")
 
-  setRegfristname({...regfristname,...error.errfrist})
+  setRegfirstname({...regfirstname,...error.errfirst})
 
   setReglastname({...reglastname,...error.errlast})
 
@@ -382,13 +462,13 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
 
 
 
-  if(error.erremail.error==""&&error.errfrist.error==""&&error.errlast.error==""&&error.errpassword.error=="")
+  if(error.erremail.error==""&&error.errfirst.error==""&&error.errlast.error==""&&error.errpassword.error=="")
   {  
     
 
     Register({
 
-      fristname:regfristname.value,
+      firstname:regfirstname.value,
       lastname:reglastname.value,
       email:regemail.value,
       password:regpassword.value
@@ -458,14 +538,28 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
 }
 
 
+ 
+const handleForgot=()=>{
 
+let box =document.querySelector(".forgotbox").style
+
+if(showforgot==false)
+{box.opacity="1"
+  setShowforgot(true)
+}
+else
+{box.opacity="0"
+
+setShowforgot(false)
+}
+}
 
   return (
 
   <Fragment>
-    { 
+ 
   
-      info.length>0?<Profilepage/>:
+      
 
     <Grid container={true} className="Login">
       <Grid container={true} className="flex State_bar" md={12}>
@@ -484,7 +578,7 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
 
           <from name="Register" >
           <Grid container={true} md={5} className="flex col">
-          <TextField value={regfristname.value}  error={regfristname.error} helperText={regfristname.notice} id="standard-basic" label="Frist name"  autoFocus onChange={(e)=>{handleInputRes("frist",e)}}/>
+          <TextField value={regfirstname.value}  error={regfirstname.error} helperText={regfirstname.notice} id="standard-basic" label="First name"  autoFocus onChange={(e)=>{handleInputRes("first",e)}}/>
           <TextField value={reglastname.value}  error={reglastname.error} helperText={reglastname.notice} id="standard-basic" label="Last name" autoFocus  onChange={(e)=>{handleInputRes("last",e)}} />
           <TextField  value={regemail.value}  error={regemail.error} helperText={regemail.notice} id="standard-basic"  required label="Email" autoFocus  onChange={(e)=>{handleInputRes("email",e)}}/>
           <TextField   value={regpassword.value} error={regpassword.error}  helperText={regpassword.notice}  type="password" id="standard-password-input" autoFocus  autoComplete="current-password" required label="Password"  onChange={(e)=>{handleInputRes("pass",e)}} />
@@ -514,15 +608,38 @@ setResultreg(mess.message+"    Let Login now to the right >>>")
            <TextField   value={logpassword.value} error={logpassword.error}  helperText={logpassword.notice} type="password"  id="standard-basic"   autoFocus  autoComplete="current-password" required label="Password"  onChange={(e)=>{handleInputLog("pass",e)}} />
 
           </Grid>
-          <Button style={{marginTop:"2%"}} variant="outlined" onClick={()=>handleSubmitLog()}>Submit</Button>
+          <Grid className=" flex sp-between">
+         <Button style={{marginTop:"2%"}} variant="outlined" onClick={()=>handleSubmitLog()}>Submit</Button>
+         <Link  onClick={()=>handleForgot()} style={{color:"blue",fontSize:"12px"}} >Forgot password?</Link>
+
+  
+         </Grid>
           </form>
           <h3 style={{color:"red"}}>{resultlog}</h3>
           </Grid>
-      
+
+
+ 
           </Grid>
 
       </Grid>
-    </Grid>  }
+      <Grid container={true} md={3} className="flex col sp-between  forgotbox">
+  
+ 
+<h3 style={{width:"100%"}}>Enter your email to reset password</h3>
+
+<Grid  className="flex al-center" >
+
+<TextField onChange={(e)=>onChangeSendMail(e)} id="standard-basic" label="Email"></TextField>
+<Button style={{margin:"5% 0 0 5%"}} variant="outlined" onClick={()=>Sendreset()}  >Send</Button>
+<p></p>
+
+</Grid>
+
+
+
+</Grid>
+    </Grid>  
     </Fragment>
   );
 };

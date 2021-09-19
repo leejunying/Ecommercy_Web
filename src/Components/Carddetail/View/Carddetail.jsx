@@ -42,7 +42,7 @@ const Carddetail = ({ match }) => {
       if (index === indx) {
         setSelectedImg(indx);
         document.querySelector(`#img${index}`).style.border =
-          "3px solid rgb(0, 87, 250)";
+          "0.5px solid rgb(0, 87, 250)";
       } else {
         document.querySelector(`#img${index}`).style.border = "none";
       }
@@ -53,23 +53,29 @@ const Carddetail = ({ match }) => {
     product_Size.map((value, index) => {
       if (index === indx) {
         setSelectedSize(indx);
-        document.querySelector(`#size${index}`).style.borderColor = "hotpink";
+        document.querySelector(`#size${index}`).style.color = "white";
+        document.querySelector(`#size${index}`).style.backgroundColor="black"
       } else {
-        document.querySelector(`#size${index}`).style.borderColor = "gray";
+        document.querySelector(`#size${index}`).style.color = "black";
+        document.querySelector(`#size${index}`).style.backgroundColor="white"
       }
     });
   };
 
-  const AddtoCart = () => {
-    let objitems = {
-      name: data.Name + "_" + product_Size[selectedSize].Name,
+  const AddtoCart=()=>{
 
-      price: product_Size[selectedSize],
-      img: product_Img[selectedImg],
-      amount: 0,
-    };
+    let objitems={
 
-    //global cart add items
+      name:data.Name+"_"+data.Size[selectedSize].Name,
+
+      price:data.Size[selectedSize].Price,
+      img: data.Pic[selectedImg],
+      number:0,
+
+    }
+
+    
+ 
 
     dispatch(addToCart(objitems));
   };
@@ -89,7 +95,7 @@ const Carddetail = ({ match }) => {
           <Grid container={true} md={8} className="Detail  ">
             <Grid items={true} md={6} className="Detail-img  ">
               {product_Img.length > 0 ? (
-                <Magnifier src={product_Img[selectedImg]} />
+                <Magnifier  style={{height:"300px",maxWidth:"300px"}}   src={product_Img[selectedImg]} />
               ) : null}
 
               <div id="zoom">
@@ -153,10 +159,11 @@ const Carddetail = ({ match }) => {
                   })}
                 </Grid>
                 <Grid items={true} className="Detail-Decrible"></Grid>
-                <Grid className="Cart_button" onClick={() => AddtoCart()}>
-                  {" "}
-                  ADD TO CART{" "}
-                </Grid>
+                <Grid className="Cart_button" onClick={()=>AddtoCart()}>
+             <label>  ADD</label>    <i className="fas fa-shopping-cart"></i>
+              
+
+           </Grid> 
               </Grid>
             </Grid>
           </Grid>{" "}

@@ -1,13 +1,18 @@
 import { ADD_TOCART } from "./cartTypes"
 import {DECREASE_CART} from "./cartTypes"
 import {INCREASE_CART} from "./cartTypes"
- 
-
+import {PAYMENT} from './cartTypes'
+import { CLEAR_CART } from "./cartTypes"
+import { TRASH_ITEMS } from "./cartTypes"
 
 const initialState={ 
 
     items:[],
-    isadd:false,
+    number:'',
+    bill:'',
+    ship:{},
+    amount:0,
+    
 
 
 }
@@ -27,14 +32,15 @@ const cartReducer = (state = initialState,action)=>{
             //Fix list cart 
               //Fix list cart 
               let filtereState=[];
-              const seen = new Set();
+
+               const seen = new Set();
               var cart=[...state.items,action.items]
   
              cart.map((value,indx)=>{
                   if(value.name==action.items.name)
                   {
 
-                    value.amount++
+                    value.number++
 
                   }          
               })
@@ -46,7 +52,7 @@ const cartReducer = (state = initialState,action)=>{
                      return !duplicate;
               }); 
 
-            return{
+             return{
                 ...state,
                 items:filtereState
             }   
@@ -63,14 +69,14 @@ const cartReducer = (state = initialState,action)=>{
                 const dedata= [...state.items]
              
                 for (var i = dedata.length; i--;) {
-                    if (dedata[i].name == action.objitems.name)
+                    if (dedata[i].name == action.name)
                     {  
                         
 
                     
-                         dedata[i].amount--
+                         dedata[i].number--
 
-                         if(dedata[i].amount==0)
+                         if(dedata[i].number==0)
                          {
                              dedata.splice(i,1)
 
@@ -93,11 +99,11 @@ const cartReducer = (state = initialState,action)=>{
                 const indata= [...state.items]
              
                 for (var i = indata.length; i--;) {
-                    if (indata[i].name == action.objitems.name)
+                    if (indata[i].name ==  action.name)
                     {  
                         
                     
-                         indata[i].amount++
+                         indata[i].number++
 
                          
 
@@ -111,6 +117,57 @@ const cartReducer = (state = initialState,action)=>{
                     items:indata
 
                   }
+
+
+
+
+                  case PAYMENT:
+                     
+    
+                      return{
+    
+                        ...state,
+                        bill:action.bill,
+                        amount:action.amount,
+                        ship:action.ship
+    
+                      }
+
+
+                  case CLEAR_CART:
+                      return {
+
+                      ...state,
+                      bill:"",
+                      amount:"",
+                      ship:"",
+                      items:[],
+
+
+                      }
+
+                  
+                  case TRASH_ITEMS:
+
+                  const olditems=[...state.items]
+
+                  console.log(action.index)
+
+                  let newitems=olditems.filter((value,indx)=>indx!=action.index)
+
+                  console.log(newitems)
+                    return{
+
+                      ...state,
+                      items:newitems
+
+
+                    }
+
+
+
+         
+
 
                   default: return state
     }

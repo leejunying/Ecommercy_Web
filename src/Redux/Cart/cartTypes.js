@@ -2,4 +2,6 @@ export const ADD_TOCART = 'ADD_TOCART'
 
 export const INCREASE_CART='INCREASE_CART'
 export const  DECREASE_CART='DECREASE_CART'
- 
+export const TRASH_ITEMS='TRASH_ITEMS'
+export const CLEAR_CART='CLEAR_CART'
+export const PAYMENT ='PAYMENT'

@@ -1,0 +1,124 @@
+.Chatbox{
+ 
+ 
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 10%; 
+  max-height: 60vh;
+z-index: 2999;
+opacity: 0;
+
+}
+
+.box_container{
+
+	position: relative;
+    box-shadow: 2px 2px 2px 2px rgb(153, 151, 151);
+
+    border-radius: 2px;
+    padding: 2px;
+    background-color: white;
+    margin: 0 10% 0 0;
+ 
+   width: 25vw;
+   height: 65vh;  
+ 
+}
+
+
+.box_message{
+    position: relative;
+	background-color: rgb(187 192 191 / 10%);
+    padding: 3%;
+    height: 25vh;
+ 
+}
+
+.box_send{
+    
+    border:none;
+ }
+.box_input{
+    border:none;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    background-color: rgb(197, 197, 197);
+    outline-style: none;
+    padding: 5px;
+}
+.box_title{
+    padding: 5px;
+    background-color: rgba(167, 167, 167, 0.164);
+    color: rgb(0, 0, 0);
+
+}
+
+.box_input{
+    width:"100%";
+    background-color: rgb(224, 223, 224);
+    border: 0.5px solid rgb(127, 104, 197);
+    
+
+
+
+}
+
+ 
+#chat{
+
+ 
+
+	padding-left:0;
+	margin:0;
+	list-style-type:none;
+	height: 50vh;
+	 
+	overflow-y: scroll;
+ 
+	
+ 
+	border-top:2px solid #fff;
+	border-bottom:2px solid #fff;
+	 
+}
+.box_warapper{
+
+ height: 50vh;
+ 
+}
+.box_show{
+
+
+	height: 90%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 10px;
+
+}
+ 
+ .row{
+	padding:10px;
+	color:#fff;
+	line-height:25px;
+	max-width:90%;
+	display:inline-block;
+	text-align:left;
+	border-radius:5px;
+ 
+}
+.me{
+    outline-style: none;
+    border-radius:15%;
+    border: none;
+    padding: 10px;
+	color: white;
+	background-color: rgb(0, 0, 255);
+}
+.you{
+
+	color: black;
+	background-color: rgb(127, 255, 0);
+
+}
+ 

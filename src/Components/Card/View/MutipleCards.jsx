@@ -5,11 +5,13 @@ import styled from "styled-components";
 
 import {useDispatch, useSelector} from"react-redux"
 import { useEffect, useState } from "react";
-import { addToCart} from "../../../Redux";
+import { addToCart,updatelovelist} from "../../../Redux";
 
 import {NavLink,Route} from'react-router-dom'
 
 import { CardTra } from "@material-ui/icons";
+import {ReactComponent as Soldout} from '../Icons/out-of-stock.svg';
+import { unaddlovelist } from "../../../Redux";
  
 const SmallCardsStyle = styled.div`
   .flex {
@@ -23,6 +25,9 @@ const SmallCardsStyle = styled.div`
   }
   .jus-center {
     justify-content: center;
+  }
+  .jus-start{
+    justify-content: flex-start;
   }
   .al-center{
     align-items:center;
@@ -41,6 +46,26 @@ const SmallCardsStyle = styled.div`
  
   
   }
+  .product-items-button{
+    position: absolute;
+      justify-content: flex-start;
+     z-index: 100;
+    margin:-20px 0 0 20px ;
+     transition: opacity 1.5s;
+}
+
+.product-items-button>i{  
+  background:black;
+  color:white;
+  font-size: small;
+  width: 25px;
+  height: 22px;
+  margin:-20px 20px 0 0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+}
 
   a{
     color:black;
@@ -63,7 +88,8 @@ const SmallCardsStyle = styled.div`
   .Card-Slider{
     
     padding:5px 0 0px 0;
-    border-radius:10px 10px 0 0px;
+    transition:  0.5s;
+
     
     margin-right: 5px;
  
@@ -134,60 +160,27 @@ const SmallCardsStyle = styled.div`
      padding:5px;
   }
   .Card-Size{
-    justify-content: center;
+    margin-left: 10%;
     width:100%;
    
   }
-  .Size-button{
-    border-radius:5px;
-    cursor:pointer;
-      text-align:center;
-     background:black;
-     border:gray 3px solid;
+  .fa-shopping-cart{
     color:white;
-    font-size:22px;
-     width: 30px;
-     height: 30px;
-    
-     margin:0 2% 0 2%;
+     position: absolute;
 
   }
+ 
+ 
  
   i{
     cursor: pointer;
   }
-  .Cart_button{
- 
+   
   
- 
-    color: #aec5c0;
-    background: #141414;
-    border:2px solid #dbc3c3;;
-    font-style:small;
-    width:50%;
-    text-align: center;
-    margin:0 25% 0 25%;
-    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-
-    text-shadow: 2px 2px 8px #FF0000;
-   
-  }
-  .Cart_button:hover{
-    color: #dff777;
-    transition:2s ease;
-    transform: rotateY(360deg);
-    border-color: #11f1e6;
-    background-color: #331d2a;
-
-    
-     
-   
-
-
-  }
   #size0{
 
-      border-color:hotpink;
+        color:white;
+        background-color: black;
 
   }
   .Card-Extention{
@@ -218,17 +211,17 @@ const SmallCardsStyle = styled.div`
   .Card-Slider:hover{
 
      .img-slider{
-       transform: scale(1.05);
+      transform: scaleY(1.1);
      }
      .Extend-area{
     
        border-top: none;
        height: 20%;
-       box-shadow: 5px 6px #535557;
+       box-shadow: 3px 2px #535557;
        
     
      }
-     box-shadow: 5px 7px #535557;
+     box-shadow: 3px 5px #535557;
    
  
       
@@ -345,14 +338,14 @@ input[type="radio"]:checked:after {
     height:7px;
 }
 .Size-button{
-    border-radius:5px;
-    cursor:pointer;
+     cursor:pointer;
       text-align:center;
      background:black;
-     border:gray 3px solid;
+     
     color:white;
     font-size:16px;
-     width:25px;
+     width:33px;
+     height: 33px;
      margin:0 2% 0 2%;
 
   }
@@ -361,39 +354,151 @@ input[type="radio"]:checked:after {
    position: relative;
    margin-top: 10%;
    width: 100%;
+} 
+
+ 
+.Cart_button{
+ 
+    height: 33px;
+  
+  cursor: pointer;
+   color: rgba(0,0,0,0.3);
+   background:   #333333;
+   border:none;
+   font-style:small;
+   width:55%;
+   text-align: left;
+   margin:0 0 0 10%;
+   padding:5px;
+   
+     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+
+  
+ }  
+ .labelanimation{
+   
+ }
+ 
+   
+  .Cart_button:hover{
+
+    .fa-shopping-cart{
+
+      animation: mymove 1.5s infinite ;
+  
+ 
+    }
+    .labelanimation{
+     
+    }
+    
+
+
+
+ 
+ 
+   
+    
+  
+ 
+ 
+ }
+
+ @keyframes mymove {
+
+   from{left:0%}
+   to{left:43%}
+    
+
+  
+
+
+
+  
+  
+     
 }
+ 
+ 
+ .Size-button{
+   border:none;
+ transition: color  1s;
+ cursor: pointer;  
+ text-align: center;
+ background: #ffffff;
+ 
+ color:  #020202;
+ font-size: 13px;
+ width: 22px;
+ height: 22px;
+ display: flex;
+ align-items:center;
+ justify-content: center;
+ 
+ 
+ }
+ 
 
 `;
 function MultipleCards(props) {
 
-    const dispatch= useDispatch()
-  
-    const productitems=useSelector(state=>state)
+ 
 
+    const dispatch= useDispatch()
+
+ 
+    const lovelist = useSelector((state) => state.tokenReducer.lovelist) || [];
+
+
+ 
   let img = props || [];
 
- 
-
-   
-  const Dot=[0,1,2]
-   const Size=img.Size
- 
-   let  SideShow= img.Pic
+  
+   const [btnitem,setBtnitem]=useState(0)   
    const [slider, setSlider] = useState(0);
-
-
    const [hoverExtend,setHoverExtend]=useState(0)
    const [selectedSize,setSelectedSize]=useState(0)
- 
+  const Dot=[0,1,2]
+   const Size=img.Size
+   let  SideShow= img.Pic
+   let sell=false
+
+  const unlove={
+
+    color:'white',
+   
+
+  }
+  const love={
+
+    color:'red',
+
+  }
+
+  const [lovestyle,setLovestyle]=useState(false)
+
+   if(img.Status=="OutStock")
+   sell=true
   
+
+
  
-   const length = SideShow.length;
+ 
+  const hoverCard=(value)=>{
+
+    if(value==1)
+    {    setHoverExtend(value);
+      setBtnitem(value)}
+
+    if(value==0)
+    {
+       setHoverExtend(value);
+      setBtnitem(value)}
+
+    }
   
-
- 
-
- 
-
+      
+   
   
 
    const SelectedSize=(indx)=>{
@@ -405,12 +510,14 @@ function MultipleCards(props) {
       if(index===indx)
       {
         setSelectedSize(indx)
-        document.querySelector(`#size${index}`).style.borderColor="hotpink"
-  
+        document.querySelector(`#size${index}`).style.backgroundColor="black"
+        document.querySelector(`#size${index}`).style.color="white"
+       
       }
       else
       {
-        document.querySelector(`#size${index}`).style.borderColor="gray"
+        document.querySelector(`#size${index}`).style.backgroundColor="white"
+        document.querySelector(`#size${index}`).style.color="black"
       }
 
     })
@@ -421,20 +528,74 @@ function MultipleCards(props) {
 
 
 
+    
+   const checkitems=(name)=>{
+
+    let check=[]
+    check=lovelist.filter((value)=>value.Name===img.Name)
+
+    if(check.length>0)
+    {
+
+      return true
+
+    }
+    else
+    {
+      return false
+    }
+ 
+
+
+   }
+  
+   const Addlovelist=()=>{
+
+    
+    if(checkitems(img.Name)==true)
+    {
+
+      dispatch(unaddlovelist(img.Name))
+
+      setLovestyle(false)
+
+    }
+    else
+    {
+
+      dispatch(updatelovelist(img))
+
+      setLovestyle(true)
+
+    }
+   
+
+  
+
+ 
+ 
+
+   }
+
+  
+
+
+
    const AddtoCart=()=>{
 
     let objitems={
 
       name:img.Name+"_"+Size[selectedSize].Name,
 
-      price:Size[selectedSize],
+      price:Size[selectedSize].Price,
       img: SideShow[slider],
-      amount:0,
+      number:0,
 
     }
 
     //global cart add items
- 
+    
+      console.log(objitems)
     dispatch(addToCart(objitems))
 
    
@@ -453,13 +614,10 @@ function MultipleCards(props) {
     <SmallCardsStyle>
        
     <Grid style={{marginTop:"30px"}}  container={true} xs={2} className=" Card" 
-       onMouseEnter={() => {
-        setHoverExtend(1);  
-       }}
-       onMouseLeave={() => {
+       onMouseEnter={() => hoverCard(1)}
+       onMouseLeave={() => hoverCard(0)
         
-        setHoverExtend(0);
-       }}
+       }
 
        
       >
@@ -470,20 +628,21 @@ function MultipleCards(props) {
         >
   
         <Grid  className="flex jus-sp-between Card-Toprow">
-            <label className=" Card-status"> {img.Status==='normal'? null:img.Status==="New"? <label className="lb-New">New</label>:<label className="lb-Discount">{'-'+img.Discount+'%'}</label>} </label>
+            <label className=" Card-status"> {img.Status==='Normal'? null:img.Status==="New"? <label className="lb-New">New</label>:img.Status==="OutStock"?<label className="lb-Discount">Sold out</label>:<label className="lb-Discount">{'-'+img.Discount+'%'}</label>} </label>
             <Grid className="flex dot">
 
           {  Dot.map((val,indx)=>{
 
                     
 
-                    return  <input  type="radio" id={indx} checked={slider==indx} onChange={()=>setSlider(indx)}></input>
+                    return  <input  type="radio" key={indx} id={indx} checked={slider==indx} onChange={()=>setSlider(indx)}></input>
                   })
 
                 }
         
             </Grid>
           </Grid>
+         
           <NavLink to={`/Products/${img.Name}`}>
            <Grid className="flex col jus-center al-center Card-image">
           
@@ -502,6 +661,16 @@ function MultipleCards(props) {
         })}  
           </Grid>
           </NavLink>
+          <Grid  style={{opacity:`${btnitem}`}}  className={`flex sp-evenly product-items-button ${img.Name}`}>
+        
+        <i id={`${img.Name}-compare`}   className="fas fa-not-equal"></i>
+
+        <i onClick={()=>Addlovelist()} style={lovestyle==true?love:unlove}    id={`${img.Name}-wish`} className="fas fa-heart"></i>
+
+
+        <i id={`${img.Name}-search`}    className="fas fa-search"></i>
+
+        </Grid>
           <Grid className="flex  col Card-Price"><Grid className="flex jus-sp-between">{img.Name} {img.Brand}</Grid>
             <label className="Price" >{Size[selectedSize].Price}</label>
            
@@ -512,7 +681,7 @@ function MultipleCards(props) {
          >
             
 
-            <Grid className="flex jus-sp-between al-center Card-Size">
+            <Grid className="flex Card-Size">
                {
 
                   Size.map((val,indx)=>{
@@ -525,11 +694,19 @@ function MultipleCards(props) {
               
             
             </Grid>
-            <Grid  className="Cart_button" 
-            
-            onClick={()=>AddtoCart()}
-            
-            > ADD TO CART </Grid> 
+
+              {
+
+                  sell==false? <Grid    className="flex al-center Cart_button" onClick={()=>AddtoCart()}>
+             
+                  <i className="fas fa-shopping-cart"> <span style={{fontSize:"small"}}>ADD TO CART</span></i>
+                
+   
+              </Grid>  : <Grid    className="flex  jus-center"> <Soldout style={{width:"20%",height:"10%"}} ></Soldout> </Grid>
+
+              }
+
+           
 
            
         

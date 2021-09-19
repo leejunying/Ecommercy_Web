@@ -44,21 +44,21 @@
 }
 .Detail-products{
   width: 100%;
-  padding-top: 30px;
+ 
   position: relative;
+ 
 }
 .Detail{
  
   padding-top: 2%;
-  height: auto;
-
-
+  
 }
 .Detail-img{
   padding:0 2% 2% 2%;
-  height: 850px;
- 
+  
+
 }
+ 
 #main-img{
   object-fit: contain;
   width: 100%;
@@ -67,27 +67,23 @@
 }
  
 .Cart_button{
- 
   
- 
-  color: #aec5c0;
+  
+ cursor: pointer;
+  color: #ffffff;
   background: #141414;
-  border:2px solid #dbc3c3;;
+  border:none;
   font-style:small;
   width:50%;
   text-align: center;
-  margin:0 25% 0 25%;
+  margin:5px;
+  padding:5%;
   font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-
-  text-shadow: 2px 2px 8px #FF0000;
+ 
  
 }
 .Cart_button:hover{
-  color: #dff777;
-  transition:2s ease;
-  transform: rotateY(360deg);
-  border-color: #11f1e6;
-  background-color: #331d2a;
+  
 
   
    
@@ -97,49 +93,52 @@
 }
 
 
+.Size-button{
+  border:none;
+transition: color  1s;
+cursor: pointer;  
+text-align: center;
+background: #ffffff;
 
+color:  #020202;
+font-size: 13px;
+width: 22px;
+height: 22px;
+margin: 5px 10px 5px 0;
+
+}
 
 
  
 .img-items{
-   object-fit: cover;
-  border:none;
-  width: 50px;
-  
-  margin: 15px 15px 15px 0;
+   border:none;
+  width: 70px;
+  height: 120x;
+  margin: 0px 15px 0px 0;
   cursor: pointer;
-  border:1px solid black;
-  
+   
 
 }
-.Size-button{
- cursor: pointer;
-  border-radius:5px;
-  text-align:center;
-   background:black;
-   border:gray 3px solid;
-  color:white;
-  font-size:22px;
-   width: 30px;
-   height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-   margin:0 2% 0 2%;
-
-}
-
+ 
 .Detail-Price{
 
   margin:15px 0 15px 0;
   font-size: 22px;
 
 }
- 
+.Detail-listimg{
+   height: 12vh;
+
+}
 #img0{
   border:3px solid rgb(0, 87, 250)
 }
- 
+#size0{
+
+  background-color: black;;
+  color:white
+
+}
 
 
 

@@ -1,0 +1,37 @@
+.Checkout{
+
+    width: 100%;
+    
+   
+}
+
+.Steptopayment{
+    width: 100%;
+    padding-top: 20px;
+}
+.Stepcontainer{
+    width: 70%;
+}
+.Stephead{
+
+  
+    
+}
+.Stepbody{
+    width: 50%;
+}
+.Stephead>li{
+    margin-right: 5px;
+}
+.step-info>li{
+    padding:2% 2% 2% 0;
+}
+
+#ship{
+    color:blue;
+}
+
+.fa-trash{
+    cursor: pointer;
+}
+ 
