@@ -1,0 +1,85 @@
+*{
+
+  padding:0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.App{
+  background-color: rgb(255, 255, 255);
+  height: 100vh;
+}
+
+.Login{ 
+  height: 100%;
+
+
+}
+.login-input{
+  padding: 2%;
+  margin:2%;
+  height: 25vh;
+    box-shadow: 5px 5px 6px 6px  black;
+
+}
+.btn-login{
+
+  height: 33px;
+  width: 150px;
+
+}
+
+ 
+
+.flex{
+
+  display:flex;
+}
+.col{
+  flex-direction: column;
+}
+.jus-center{
+  justify-content: center;
+}
+.sp-between{
+  justify-content: space-between;
+}
+.sp-arround{
+  justify-content: space-around;
+}
+
+.sp-evenly{
+  justify-content: space-evenly;
+}
+.jus-start{
+  justify-content: flex-start;
+}
+.jus-end{
+  justify-content: flex-end;
+}
+ 
+.bd{
+  border:1px solid red;
+}
+.al-center{
+  align-items: center;
+}
+.container{
+  display: flex;
+  margin-top: 10px;
+}
+
+
+.link{
+  text-decoration: none;
+  color: inherit;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+ 

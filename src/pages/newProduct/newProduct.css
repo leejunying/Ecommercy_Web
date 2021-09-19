@@ -1,0 +1,130 @@
+.newProduct {
+  flex: 5;
+}
+
+.addProductForm {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.addProductItem {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.addProductItem > label {
+  color: gray;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.addProductItem > input {
+  padding: 10px;
+}
+
+.addProductItem > select {
+  padding: 10px;
+}
+
+.addProductButton {
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+  cursor: pointer;
+
+}
+
+.filetitle{
+  color: rgb(135, 184, 228);
+}
+.btnclear{
+  padding:5px;
+  border: none;
+   cursor:pointer;
+    background-color: rgb(216, 50, 50);
+    color:rgb(255, 255, 255)
+}
+.imgpreview{
+  object-fit: contain;
+  margin-right: 20px;
+}
+.btnimg{
+
+  border:none;
+  outline-style: none;
+  padding: 5px;
+  color: white;
+  background-color: rgb(110, 110, 209);
+  cursor: pointer;
+
+}
+input{
+  outline-style: none;
+}
+
+.containercheck{
+  font-size: 16px;
+  display: flex;
+ 
+  align-items: center;
+}
+.hideinput{
+  margin: 10px 0 10px 0;
+    opacity: 0;
+   font-size: 16px;
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
+}
+.error{
+margin-right: 10px;
+position: absolute;
+right:0;
+color:rgba(204, 83, 83, 0.836)
+
+
+}
+.box1{
+  position: relative;
+  padding:0 10px 0 10px;
+ 
+  border-left: none;
+}
+.box2{
+  position: relative;
+  padding:0 10px 0 10px;
+ 
+  border-left: none;
+
+  
+}
+.box3{
+  position: relative;
+  padding:0 10px 0 10px;
+ ;
+  border-left: none;
+
+}
+.box4{
+  position: relative;
+  padding:0 10px 0 10px;
+ 
+  border-left: none;
+
+}
+ 
