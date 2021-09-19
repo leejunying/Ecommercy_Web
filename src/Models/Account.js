@@ -10,7 +10,7 @@ const Account_Model = new Schema(
       default: Date.now,
     },
     
-    Fristname: {
+    Firstname: {
         type: String,
         required: true,
     },
@@ -43,7 +43,18 @@ const Account_Model = new Schema(
     Lovelist:{
       type:Array,
       require:true,
-    }
+    },
+    Phone:{
+
+      type:String,
+
+    },
+    Address:{
+
+      type:String,
+
+    },
+
   },
   { collection: "Account" }
 );

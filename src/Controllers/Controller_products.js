@@ -14,6 +14,9 @@ const Add = async (data) => {
        await newproduct.save()
 
 
+       return newproduct
+
+
     } catch (err) {
       return {
         status: 0,
@@ -23,36 +26,16 @@ const Add = async (data) => {
   };
 
 
-  const Update = async (inputname,inputtype,update) => {
+  const Update = async (update,id) => {
     try {
         
         
-        const name={Name:inputname}
-        const type={type:inputtype}
       
-
-        if(name!="")
-        { 
-           
-            let doc = await Products_Model.updateOne(name,update)
-
-            let data= await Products_Model.findOne(name)
-            return data
-             
-        }
-        if(type!="")
-        {
-
-           let doc=await Products_Model.updateMany(type,update)
-           let data= await Products_Model.find(type)
-
-           return data
-
-
-        }
-        
+         
        
+      let result = await Products_Model.updateOne({_id:id},update)
 
+      return result
 
     } catch (err) {
       return {
@@ -64,32 +47,21 @@ const Add = async (data) => {
 
 
 
-  const Delete = async (inputname,inputtype) =>{
+  const Delete = async (id) =>{
 
 try{
-    const name={Name:inputname}
-        const type={type:inputtype}
- 
-
-        if(name!="")
-        { 
-           
-            let doc = await Products_Model.deleteOne(name)
-
-          
-            return true
-             
-        }
-        if(type!="")
-        {
-
-           let doc=await Products_Model.deleteMany(type)
-           let data= await Products_Model.find(type)
-
-           return true
+   
 
 
-        }
+            
+            let doc = await Products_Model.deleteOne({_id:id})
+
+            if(doc.n==1)
+             return true
+
+            
+   
+     
       }
       catch (err) {
       return {
@@ -102,7 +74,29 @@ try{
 
 
 
+  const Searchproducts=async(text)=>{
+    try{
 
+
+        let result = await Products_Model.find({ "Name": { $regex: `${text}` } }).limit(5)
+
+ 
+        if(result.length==0)
+        return {message:"Not found"}
+        return result
+
+    }
+
+    catch (err){
+      return {
+
+        status:0,
+        message:err.toString(),
+    }
+
+    }
+
+  }
  
 
   const Finproducts=async(name) =>{
@@ -165,5 +159,7 @@ try{
      Finproducts,
      Update,
      pageination,
+     Searchproducts,
+     Delete,
           };
   

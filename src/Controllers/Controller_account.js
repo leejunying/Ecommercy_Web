@@ -1,9 +1,11 @@
 const { json } = require("body-parser");
 const  Account_Model = require("../Models/Account.js")
+const Products_Model=require("../Models/Products")
 const bcrypt = require("bcryptjs");
 const { restart } = require("nodemon");
 const createtoken = require("../Utils/token.js");
-const nodemailer= require("nodemailer")
+var randomstring = require("randomstring");
+
 
 
 
@@ -29,13 +31,15 @@ const finduser = async (email) => {
 
 
 const signup = async (
-     Fristname,
+     Firstname,
     Lastname,
     Email,
     Password,
     History,
     Level,
     Lovelist,
+    Address,
+    Phone,
   ) => {
     try {
 
@@ -46,13 +50,15 @@ const signup = async (
       const hash = bcrypt.hashSync(Password, salt);
   
       const user = new  Account_Model({
-        Fristname,
+        Firstname,
         Lastname,
         Email,
         Password:hash,
         History,
         Level,
         Lovelist,
+        Address,
+        Phone,
       });
 
       
@@ -110,7 +116,8 @@ const signup = async (
         
  
         return {
-          message: token,
+          message: true,
+          token:token,
         };
       } else {
         return {
@@ -120,7 +127,7 @@ const signup = async (
     } catch (err) {
       return {
         status: 3,
-        message: err.toString(),
+        message: false,
       };
     }
   };
@@ -129,6 +136,152 @@ const signup = async (
 
 
   
+const Addhistory=async(Email,History)=>{
+  
+
+
+  try {
+
+ 
+      //updateONe 4 option (filler ,update,option, callback)
+
+   const  result = await Account_Model.updateOne({Email:Email},{History:History})
+
+
+   if(!result)
+   return false
+ 
+   return true
+
+
+
+    }
+     
+   catch (err) {
+    return {
+      message: err.toString(),
+    };
+  }
+
+}
+
+
+const Getlovelist=async(Email,lovelist)=>{
+    
+  let productinfo=[]
+
+  
+ 
+  for(let value of lovelist)
+  productinfo.push( await Products_Model.find({Name:value}))
+
+
+ 
+    return productinfo
+ }
+
+
+
+ const Updatelovelist=async(Email,lovelist)=>{
+
+  try{
+
+  let result=  await Account_Model.updateOne({Email:Email},{Lovelist:lovelist})
+  console.log(result)
+
+  return result
+
+
+
+  }
+  catch (err){
+
+    return{message:"Error"}
+
+  }
+
+ }
+
+ 
+
+const Getusers=async()=>{
+
+  try{
+
+  let result=  await Account_Model.find()
+  console.log(result)
+
+  return result
+
+ 
+
+
+
+  }
+  catch (err){
+
+    return{message:"Error"}
+
+  }
+
+ }
+
+
+ const Resetpassword=async(Email)=>{
+   
+
+    try{
+   let newpassword=    randomstring.generate(8);
+   const salt = bcrypt.genSaltSync(10);
+   const hash = bcrypt.hashSync(newpassword, salt);
+   console.log(newpassword)
+  let result=  await Account_Model.updateOne({Email:Email},{Password:hash})
+ 
+  if(result)
+  return newpassword
+ 
+
+
+
+  }
+  catch (err){
+
+    return{message:"Error"}
+
+  }
+
+ }
+
+
+
+ 
+ const UpdateContact=async(newAddress,newPhone,Email)=>{
+
+  try{
+
+  let result=  await Account_Model.updateOne({Email:Email},{Address:newAddress,Phone:newPhone})
+ 
+ 
+    if(result.nModified==1)
+    {
+      return true
+    }
+ 
+    
+ 
+
+
+
+  }
+  catch (err){
+
+    return{message:false}
+
+  }
+
+ }
+
+ 
 
 
 
@@ -136,6 +289,11 @@ const signup = async (
     signup,
     finduser,
     login,
-    
+    Addhistory,
+    Getlovelist,
+    Updatelovelist,
+    Getusers,
+    Resetpassword,
+    UpdateContact,
   };
   

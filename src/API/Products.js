@@ -1,19 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const Products_Controller=require("../Controllers/Controller_products.js");
-const Products = require("../Models/Products.js");
-const Products_Model = require("../Models/Products.js")
+ const Products_Model = require("../Models/Products.js")
  
  
 router.post("/add", async (req, res) => {
   try {
 
-
-
-    await Products_Controller.Add(req.body);
-
-    res.send("Đã thêm mới thành công")
  
+   let result= await Products_Controller.Add(req.body);
+
+
+    res.send(result)
+
+    
   } catch (err) {
     return {
       status: "Have error",
@@ -26,16 +26,13 @@ router.post("/add", async (req, res) => {
  
 router.post("/update", async (req, res) => {
   try {
-
-    const {
-
-      Name,Type,update
-
-    }=req.body;
-
  
+ 
+ const{objupdate,id}=req.body
+    
+    console.log(objupdate,id)
 
- let result = await Products_Controller.Update(Name,Type,update);
+  let result = await Products_Controller.Update(objupdate,id);
 
     if(result!="")
     { 
@@ -52,6 +49,36 @@ router.post("/update", async (req, res) => {
     };
   }
 });
+
+
+
+
+router.post("/delete", async (req, res) => {
+  try {
+ 
+ 
+ const{id}=req.body
+    
+ 
+  let result = await Products_Controller.Delete(id);
+
+ 
+    res.send({
+
+
+      message:result
+
+    })
+
+ 
+  } catch (err) {
+    return {
+      status: "Have error",
+      message: err.toString(),
+    };
+  }
+});
+
 
 
  router.get("/Filter",async  (req,res)=>{
@@ -83,9 +110,8 @@ router.post("/update", async (req, res) => {
 
   if(req.query["Color"]!=undefined )
   {
-    objcolor.Color=req.query["Color"].split(" ")
-    
-   
+     objcolor.Color={$in:req.query["Color"].split(" ")}
+  
   }
   else{
 
@@ -149,6 +175,21 @@ router.post("/update", async (req, res) => {
  
  })
 
+//Get products by Search
+
+router.get("/Search",async (req,res)=>{
+
+ 
+  const {input} =req.query
+  console.log(input)
+
+  let result = await Products_Controller.Searchproducts(input)
+  res.send(result)
+
+
+})
+
+
 
  //Get products by name 
  router.get("/Find/:name",async (req,res)=>{
@@ -173,6 +214,7 @@ router.get("/:page", (req, res) => {
   
     Products_Model
       .find() // find tất cả các data
+      .sort( {'create_date': -1})
       .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
       .limit(perPage)
       .exec((err, products) => {

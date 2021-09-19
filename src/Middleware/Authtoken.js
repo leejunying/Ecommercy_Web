@@ -16,6 +16,7 @@ const checkToken = async (req, res, next) => {
       res.send(false);
     } else {
       delete verifyToken.password;
+     
       req.data = [{ ...verifyToken }];
     }
 

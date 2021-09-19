@@ -2,16 +2,20 @@ const jwt = require("jsonwebtoken");
 const jwtConfig = require("../Configs/token.js")
 
 const generateToken = async (user) => {
-    
+
+  console.log(user.Fristname)
+
   return await jwt.sign(
-    {
+    { 
       _id: user._id,
       Email:user.Email,
       Lastname: user.Lastname,
-      Firstname: user.Firstname,
+      Firstname : user.Firstname,
       Level:user.Level,
       History:user.History,
       Lovelist:user.Lovelist,
+      Address:user.Address,
+      Phone:user.Phone,
       
     },
     jwtConfig.secretKey,
