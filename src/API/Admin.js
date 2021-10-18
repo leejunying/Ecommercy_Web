@@ -12,6 +12,7 @@ router.get("/data",async(req,res)=>
 let results= await Controller.Getdata()
 
 
+ console.log(results)
 res.send(results)
 
 
