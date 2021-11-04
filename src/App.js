@@ -68,7 +68,7 @@ const Loadcomponents=(routes)=>{
     <Header></Header>
      <Switch>
 
-    
+  
     {
      
         Loadcomponents(Main)

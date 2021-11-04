@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
- import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import {
   BrowserRouter as Router,
@@ -16,15 +16,14 @@ import {
   Redirect,
 } from "react-router-dom";
 
-
 import Button from "@material-ui/core/Button";
 
 import { decreasecart, increasecart } from "../../../Redux";
 
 import { useDispatch, useSelector } from "react-redux";
 import { lightGreen } from "@material-ui/core/colors";
-import Chatbox from "../../Chatbox/View/Chatbox"
-import Mobile_menu from "./Mobile_Menu"
+import Chatbox from "../../Chatbox/View/Chatbox";
+import Mobile_menu from "./Mobile_Menu";
 const Headerstyle = styled.div`
   .Header {
     height: 0.5%;
@@ -208,7 +207,7 @@ const Headerstyle = styled.div`
     width: 0%;
     max-height: 100%;
     right: 0;
-    z-index: 999;
+    z-index: 3000;
     transition: width 1.2s;
   }
   .Cart-extention-show {
@@ -271,18 +270,17 @@ const Headerstyle = styled.div`
     background: #5f6062;
     color: white;
     padding: 20px;
-   }
+  }
   .amount-cart {
     font-size: large;
   }
   .Cart-container {
     background-color: #5f6062;
     height: auto;
- 
+
     padding: 2%;
   }
   .Cart-row {
-   
     height: 135px;
     background-color: #fbfdfd;
   }
@@ -293,28 +291,28 @@ const Headerstyle = styled.div`
     min-height: 25vh;
     max-height: auto;
     text-align: center;
-     top: 10%;
+    top: 10%;
     z-index: 2000;
     width: 50%;
-    left:25%;
+    left: 25%;
     background-color: #fcfcfc;
-   }
-   .Search-input{
-     margin-top: 5%;
-     color:black;
-     padding:2%;
-     border:1px solid #7c7a7a;
-      left:20%;
-      position: relative;
-    }
-   .Search-row{
-     max-height: 50vh;
-    
-     overflow: auto;
-      position: relative;
-     left:20%;
-     margin:0 0 1% 0;
-   }
+  }
+  .Search-input {
+    margin-top: 5%;
+    color: black;
+    padding: 2%;
+    border: 1px solid #7c7a7a;
+    left: 20%;
+    position: relative;
+  }
+  .Search-row {
+    max-height: 50vh;
+
+    overflow: auto;
+    position: relative;
+    left: 20%;
+    margin: 0 0 1% 0;
+  }
 
   .MuiInputBase-input {
     color: #474747;
@@ -393,112 +391,253 @@ const Headerstyle = styled.div`
     margin-top: 5px;
   }
 
-
-  .fa-comment-dots{
+  .fa-comment-dots {
     padding: 10px;
     border-radius: 50%;
     cursor: pointer;
     right: 0;
     bottom: 0;
-    margin:0 10% 33% 20%;
+    margin: 0 10% 33% 20%;
     background-color: #e7eaec;
     color: rgb(20, 105, 233);
-     z-index: 2999;
-    position:fixed;
+    z-index: 2999;
+    position: fixed;
     font-size: 2.2rem;
-    -webkit-animation: ring 4s .7s ease-in-out infinite;
-  -webkit-transform-origin: 50% 4px;
-  -moz-animation: ring 4s .7s ease-in-out infinite;
-  -moz-transform-origin: 50% 4px;
-  animation: ring 4s .7s ease-in-out infinite;
-  transform-origin: 50% 4px;
+    -webkit-animation: ring 4s 0.7s ease-in-out infinite;
+    -webkit-transform-origin: 50% 4px;
+    -moz-animation: ring 4s 0.7s ease-in-out infinite;
+    -moz-transform-origin: 50% 4px;
+    animation: ring 4s 0.7s ease-in-out infinite;
+    transform-origin: 50% 4px;
+  }
 
+  @-webkit-keyframes ring {
+    0% {
+      -webkit-transform: rotateZ(0);
+    }
+    1% {
+      -webkit-transform: rotateZ(30deg);
+    }
+    3% {
+      -webkit-transform: rotateZ(-28deg);
+    }
+    5% {
+      -webkit-transform: rotateZ(34deg);
+    }
+    7% {
+      -webkit-transform: rotateZ(-32deg);
+    }
+    9% {
+      -webkit-transform: rotateZ(30deg);
+    }
+    11% {
+      -webkit-transform: rotateZ(-28deg);
+    }
+    13% {
+      -webkit-transform: rotateZ(26deg);
+    }
+    15% {
+      -webkit-transform: rotateZ(-24deg);
+    }
+    17% {
+      -webkit-transform: rotateZ(22deg);
+    }
+    19% {
+      -webkit-transform: rotateZ(-20deg);
+    }
+    21% {
+      -webkit-transform: rotateZ(18deg);
+    }
+    23% {
+      -webkit-transform: rotateZ(-16deg);
+    }
+    25% {
+      -webkit-transform: rotateZ(14deg);
+    }
+    27% {
+      -webkit-transform: rotateZ(-12deg);
+    }
+    29% {
+      -webkit-transform: rotateZ(10deg);
+    }
+    31% {
+      -webkit-transform: rotateZ(-8deg);
+    }
+    33% {
+      -webkit-transform: rotateZ(6deg);
+    }
+    35% {
+      -webkit-transform: rotateZ(-4deg);
+    }
+    37% {
+      -webkit-transform: rotateZ(2deg);
+    }
+    39% {
+      -webkit-transform: rotateZ(-1deg);
+    }
+    41% {
+      -webkit-transform: rotateZ(1deg);
+    }
 
-}
+    43% {
+      -webkit-transform: rotateZ(0);
+    }
+    100% {
+      -webkit-transform: rotateZ(0);
+    }
+  }
 
-@-webkit-keyframes ring {
-  0% { -webkit-transform: rotateZ(0); }
-  1% { -webkit-transform: rotateZ(30deg); }
-  3% { -webkit-transform: rotateZ(-28deg); }
-  5% { -webkit-transform: rotateZ(34deg); }
-  7% { -webkit-transform: rotateZ(-32deg); }
-  9% { -webkit-transform: rotateZ(30deg); }
-  11% { -webkit-transform: rotateZ(-28deg); }
-  13% { -webkit-transform: rotateZ(26deg); }
-  15% { -webkit-transform: rotateZ(-24deg); }
-  17% { -webkit-transform: rotateZ(22deg); }
-  19% { -webkit-transform: rotateZ(-20deg); }
-  21% { -webkit-transform: rotateZ(18deg); }
-  23% { -webkit-transform: rotateZ(-16deg); }
-  25% { -webkit-transform: rotateZ(14deg); }
-  27% { -webkit-transform: rotateZ(-12deg); }
-  29% { -webkit-transform: rotateZ(10deg); }
-  31% { -webkit-transform: rotateZ(-8deg); }
-  33% { -webkit-transform: rotateZ(6deg); }
-  35% { -webkit-transform: rotateZ(-4deg); }
-  37% { -webkit-transform: rotateZ(2deg); }
-  39% { -webkit-transform: rotateZ(-1deg); }
-  41% { -webkit-transform: rotateZ(1deg); }
+  @-moz-keyframes ring {
+    0% {
+      -moz-transform: rotate(0);
+    }
+    1% {
+      -moz-transform: rotate(30deg);
+    }
+    3% {
+      -moz-transform: rotate(-28deg);
+    }
+    5% {
+      -moz-transform: rotate(34deg);
+    }
+    7% {
+      -moz-transform: rotate(-32deg);
+    }
+    9% {
+      -moz-transform: rotate(30deg);
+    }
+    11% {
+      -moz-transform: rotate(-28deg);
+    }
+    13% {
+      -moz-transform: rotate(26deg);
+    }
+    15% {
+      -moz-transform: rotate(-24deg);
+    }
+    17% {
+      -moz-transform: rotate(22deg);
+    }
+    19% {
+      -moz-transform: rotate(-20deg);
+    }
+    21% {
+      -moz-transform: rotate(18deg);
+    }
+    23% {
+      -moz-transform: rotate(-16deg);
+    }
+    25% {
+      -moz-transform: rotate(14deg);
+    }
+    27% {
+      -moz-transform: rotate(-12deg);
+    }
+    29% {
+      -moz-transform: rotate(10deg);
+    }
+    31% {
+      -moz-transform: rotate(-8deg);
+    }
+    33% {
+      -moz-transform: rotate(6deg);
+    }
+    35% {
+      -moz-transform: rotate(-4deg);
+    }
+    37% {
+      -moz-transform: rotate(2deg);
+    }
+    39% {
+      -moz-transform: rotate(-1deg);
+    }
+    41% {
+      -moz-transform: rotate(1deg);
+    }
 
-  43% { -webkit-transform: rotateZ(0); }
-  100% { -webkit-transform: rotateZ(0); }
-}
+    43% {
+      -moz-transform: rotate(0);
+    }
+    100% {
+      -moz-transform: rotate(0);
+    }
+  }
 
-@-moz-keyframes ring {
-  0% { -moz-transform: rotate(0); }
-  1% { -moz-transform: rotate(30deg); }
-  3% { -moz-transform: rotate(-28deg); }
-  5% { -moz-transform: rotate(34deg); }
-  7% { -moz-transform: rotate(-32deg); }
-  9% { -moz-transform: rotate(30deg); }
-  11% { -moz-transform: rotate(-28deg); }
-  13% { -moz-transform: rotate(26deg); }
-  15% { -moz-transform: rotate(-24deg); }
-  17% { -moz-transform: rotate(22deg); }
-  19% { -moz-transform: rotate(-20deg); }
-  21% { -moz-transform: rotate(18deg); }
-  23% { -moz-transform: rotate(-16deg); }
-  25% { -moz-transform: rotate(14deg); }
-  27% { -moz-transform: rotate(-12deg); }
-  29% { -moz-transform: rotate(10deg); }
-  31% { -moz-transform: rotate(-8deg); }
-  33% { -moz-transform: rotate(6deg); }
-  35% { -moz-transform: rotate(-4deg); }
-  37% { -moz-transform: rotate(2deg); }
-  39% { -moz-transform: rotate(-1deg); }
-  41% { -moz-transform: rotate(1deg); }
+  @keyframes ring {
+    0% {
+      transform: rotate(0);
+    }
+    1% {
+      transform: rotate(30deg);
+    }
+    3% {
+      transform: rotate(-28deg);
+    }
+    5% {
+      transform: rotate(34deg);
+    }
+    7% {
+      transform: rotate(-32deg);
+    }
+    9% {
+      transform: rotate(30deg);
+    }
+    11% {
+      transform: rotate(-28deg);
+    }
+    13% {
+      transform: rotate(26deg);
+    }
+    15% {
+      transform: rotate(-24deg);
+    }
+    17% {
+      transform: rotate(22deg);
+    }
+    19% {
+      transform: rotate(-20deg);
+    }
+    21% {
+      transform: rotate(18deg);
+    }
+    23% {
+      transform: rotate(-16deg);
+    }
+    25% {
+      transform: rotate(14deg);
+    }
+    27% {
+      transform: rotate(-12deg);
+    }
+    29% {
+      transform: rotate(10deg);
+    }
+    31% {
+      transform: rotate(-8deg);
+    }
+    33% {
+      transform: rotate(6deg);
+    }
+    35% {
+      transform: rotate(-4deg);
+    }
+    37% {
+      transform: rotate(2deg);
+    }
+    39% {
+      transform: rotate(-1deg);
+    }
+    41% {
+      transform: rotate(1deg);
+    }
 
-  43% { -moz-transform: rotate(0); }
-  100% { -moz-transform: rotate(0); }
-}
-
-@keyframes ring {
-  0% { transform: rotate(0); }
-  1% { transform: rotate(30deg); }
-  3% { transform: rotate(-28deg); }
-  5% { transform: rotate(34deg); }
-  7% { transform: rotate(-32deg); }
-  9% { transform: rotate(30deg); }
-  11% { transform: rotate(-28deg); }
-  13% { transform: rotate(26deg); }
-  15% { transform: rotate(-24deg); }
-  17% { transform: rotate(22deg); }
-  19% { transform: rotate(-20deg); }
-  21% { transform: rotate(18deg); }
-  23% { transform: rotate(-16deg); }
-  25% { transform: rotate(14deg); }
-  27% { transform: rotate(-12deg); }
-  29% { transform: rotate(10deg); }
-  31% { transform: rotate(-8deg); }
-  33% { transform: rotate(6deg); }
-  35% { transform: rotate(-4deg); }
-  37% { transform: rotate(2deg); }
-  39% { transform: rotate(-1deg); }
-  41% { transform: rotate(1deg); }
-
-  43% { transform: rotate(0); }
-  100% { transform: rotate(0); }
-}
+    43% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(0);
+    }
+  }
   //Reponsive
 
   @media screen and (max-width: 992px) {
@@ -526,19 +665,15 @@ function Header() {
 
   const filtereState = useSelector((state) => state.cartReducer.items) || [];
 
-  console.log(filtereState)
-
+  console.log(filtereState);
 
   const profile = useSelector((state) => state.tokenReducer.infodata) || [];
 
   const [checkout, setCheckout] = useState({
-
-    disabled:true,
-    text:"You need to login"
-
-
+    disabled: true,
+    text: "You need to login",
   });
-   const token = useSelector((state) => state.tokenReducer.token);
+  const token = useSelector((state) => state.tokenReducer.token);
 
   const [Cart, setCart] = useState(false);
 
@@ -575,20 +710,21 @@ function Header() {
   };
 
   useEffect(() => {
-    profile.length > 0 ? setCheckout({
-      disabled:false,
-        text:"CHECK OUT"
-
-    })  : setCheckout({
-      disabled:true,
-      text:"You need to login"
-    })
-   }, []);
+    profile.length > 0
+      ? setCheckout({
+          disabled: false,
+          text: "CHECK OUT",
+        })
+      : setCheckout({
+          disabled: true,
+          text: "You need to login",
+        });
+  }, []);
 
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main:"#9b9b9b",
+        main: "#9b9b9b",
       },
       secondary: {
         main: "#fafafa",
@@ -640,14 +776,11 @@ function Header() {
       document.querySelector(`#bd${selectedmenu}`).style.width = "0";
     }
   };
-  
-  const  clearState=()=>{
 
-    setShowsearch(0)
-    setSearchresult([])
-
-
-  }
+  const clearState = () => {
+    setShowsearch(0);
+    setSearchresult([]);
+  };
   const Search = (search) => {
     axios
       .get(`http://localhost:4000/products/Search?input=${search}`)
@@ -663,39 +796,31 @@ function Header() {
       });
   };
 
- 
-
   // <span className="top-label" style={{ color: "red" }}>
   //               Hot
   //             </span>
 
-
-  const Checkout=()=>{
-
-    
-    window.location.assign("/Checkout")
-
- 
-
-  }
+  const Checkout = () => {
+    window.location.assign("/Checkout");
+  };
 
   return (
     <Headerstyle>
+      <Mobile_menu />
+      <Chatbox />
+      <i
+        onClick={() => {
+          let show = document.querySelector(".Chatbox").style;
 
-       <Mobile_menu/>
-        <Chatbox/>
-        <i onClick={()=>{
+          show.opacity == 0 ? (show.opacity = 1) : (show.opacity = 0);
 
-          let show=  document.querySelector(".Chatbox").style
-
-          show.opacity==0?show.opacity=1:show.opacity=0
-
-
-          document.querySelector(".fa-comment-dots").style.display="none"
-
-
-
-        }} className="flex jus-center  al-center far fa-comment-dots"> <label style={{fontSize:"x-small"}}>ADMIN</label></i>
+          document.querySelector(".fa-comment-dots").style.display = "none";
+        }}
+        className="flex jus-center  al-center far fa-comment-dots"
+      >
+        {" "}
+        <label style={{ fontSize: "x-small" }}>ADMIN</label>
+      </i>
       <Grid container md={12} className=" flex jus-center Header">
         <Grid
           container
@@ -781,36 +906,32 @@ function Header() {
             </Grid>
 
             {profile.length > 0 ? (
-              <Grid 
-              onClick={() => signout()}
+              <Grid
+                onClick={() => signout()}
                 items={true}
                 md={2}
                 className="flex col al-center jus-center head-items"
               >
                 {" "}
-                <i
-                 
-                  className="fas fa-sign-out-alt"
-                ></i>
+                <i className="fas fa-sign-out-alt"></i>
                 <small>SIGN OUT</small>
               </Grid>
             ) : null}
           </Grid>
         </Grid>
       </Grid>
-    
-      {showsearch==1?
 
+      {showsearch == 1 ? (
         <Grid container={true} className="flex col jus-center Search-container">
-
-            <Grid items={true} className="flex jus-end" ><i  onClick={()=>{
-
-              clearState()
-
-
-            }} className="fas fa-times"></i></Grid>
-            <Grid md={8} items={true} className="flex Search-input">
-
+          <Grid items={true} className="flex jus-end">
+            <i
+              onClick={() => {
+                clearState();
+              }}
+              className="fas fa-times"
+            ></i>
+          </Grid>
+          <Grid md={8} items={true} className="flex Search-input">
             <ThemeProvider theme={theme}>
               <TextField
                 fullWidth
@@ -818,56 +939,43 @@ function Header() {
                 id="mui-theme-provider-standard-input"
                 onChange={(e) => setSearchvalue(e.target.value)}
               />
-              
-            <i
-              onClick={() => Search(searchvalue)}
-              style={{ fontSize: "22px", color: "#d8d7d7",border:"none" }}
-              className="flex  jus-center al-center fas fa-search"
-            ></i>
+
+              <i
+                onClick={() => Search(searchvalue)}
+                style={{ fontSize: "22px", color: "#d8d7d7", border: "none" }}
+                className="flex  jus-center al-center fas fa-search"
+              ></i>
             </ThemeProvider>
-            </Grid>
-            <Grid items={true} md={8} className="felx jus-center Search-row">
-              {searchresult.length>0?
-               searchresult.map((data)=>{
-                return <NavLink to={`/Products/${data.Name}`}> <Grid container={true} className=" flex jus-start ">
+          </Grid>
+          <Grid items={true} md={8} className="felx jus-center Search-row">
+            {searchresult.length > 0 ? (
+              searchresult.map((data) => {
+                return (
+                  <NavLink to={`/Products/${data.Name}`}>
+                    {" "}
+                    <Grid container={true} className=" flex jus-start ">
+                      <Grid items={true} md={3}>
+                        <img style={{ width: "100%" }} src={data.Pic[0]}></img>
+                      </Grid>
+                      <Grid className="flex col jus-center al-center sp-evenly">
+                        <label>Product name:{data.Name}</label>
 
-                  <Grid items={true} md={3}>
-                  <img style={{width:"100%"}} src={data.Pic[0]}></img>
-                  </Grid>
-                  <Grid className="flex col jus-center al-center sp-evenly">
-                  <label>Product name:{data.Name}</label>
+                        <label>Make by:{data.Brand}</label>
 
-                  <label>Make by:{data.Brand}</label>
-
-                  <h4 style={{color:"#e72323ed"}}>Price:{data.Price}</h4>
-
-                  </Grid>
-
-
-               </Grid>
-
-               </NavLink>
-               }) : <p>Search result</p>
-
-
-
-              }
-
-
-            </Grid>
-
+                        <h4 style={{ color: "#e72323ed" }}>
+                          Price:{data.Price}
+                        </h4>
+                      </Grid>
+                    </Grid>
+                  </NavLink>
+                );
+              })
+            ) : (
+              <p>Search result</p>
+            )}
+          </Grid>
         </Grid>
-
-
-      :null
-
-      }
-
-
-
-           
-       
-       
+      ) : null}
 
       <Grid className="Cart-extention">
         <Grid className="Cart-extention-show">
@@ -912,7 +1020,13 @@ function Header() {
                         <label>
                           {value.name.slice(0, value.name.indexOf("_"))}{" "}
                         </label>
-                         <label> {value.name.slice( 1+value.name.indexOf("_"),value.name.length)}</label>
+                        <label>
+                          {" "}
+                          {value.name.slice(
+                            1 + value.name.indexOf("_"),
+                            value.name.length
+                          )}
+                        </label>
                       </Grid>
 
                       <Grid items={true}>
@@ -923,9 +1037,7 @@ function Header() {
                           >
                             <button
                               className="cart-btn"
-                              onClick={() =>
-                                decrease(value.name)
-                              }
+                              onClick={() => decrease(value.name)}
                             >
                               -
                             </button>
@@ -936,9 +1048,7 @@ function Header() {
 
                             <button
                               className="cart-btn"
-                              onClick={() =>
-                                increase(value.name)
-                              }
+                              onClick={() => increase(value.name)}
                             >
                               +
                             </button>
@@ -958,17 +1068,15 @@ function Header() {
 
             {filtereState.length > 0 ? (
               <Grid style={{ background: "white" }} className="flex jus-center">
-               
-                  {" "}
-                  <Button
-                    onClick={()=>Checkout()}
-                    className="checkoutbtn"
-                    variant="outlined"
-                    disabled={checkout.disabled}
-                  >
-                     {checkout.text}
-                  </Button>{" "}
-                
+                {" "}
+                <Button
+                  onClick={() => Checkout()}
+                  className="checkoutbtn"
+                  variant="outlined"
+                  disabled={checkout.disabled}
+                >
+                  {checkout.text}
+                </Button>{" "}
               </Grid>
             ) : null}
           </Grid>

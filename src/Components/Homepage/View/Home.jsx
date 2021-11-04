@@ -4,13 +4,13 @@ import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 import { useState } from "react";
-// import { Slide } from "react-slideshow-image";
+import { Slide } from "react-slideshow-image";
 
 import MultipleCards from "../../Card/View/MutipleCards";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-
+import axios from "axios";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "../CSS/Home.css";
 
@@ -165,6 +165,7 @@ const Homestyle = styled.div`
 
 function Home() {
   const [screen, setScreen] = useState(5);
+
   const [scrMainproduct, setSrcMainproduct] = useState({
     Container: "10",
     Items: "3",
@@ -175,14 +176,44 @@ function Home() {
     Items: "3",
   });
 
+  const hide = {
+    opacity: "0",
+  };
+
+  const unhide = {
+    opacity: "1",
+  };
+  const [product, setProduct] = useState([]);
+  const [feature, setFeature] = useState([]);
+
+  const [demoimg, setDemoimg] = useState({
+    demo1: {
+      product: {},
+      status: 0,
+    },
+    demo2: {
+      product: {},
+      status: 0,
+    },
+
+    demo3: {
+      product: {},
+      status: 0,
+    },
+  });
+
+  const isEmptyObject = (obj) => {
+    return JSON.stringify(obj) === "{}";
+  };
+
   //Check media
 
-  useEffect(() => {
+  useEffect(async () => {
     function handler() {
       if (test768.matches === true) {
         setScreen(12);
         setSrcMainproduct({
-          Container: "10",
+          Container: "8",
           Items: "2",
         });
 
@@ -196,9 +227,36 @@ function Home() {
     const test768 = window.matchMedia("(max-width:768px)");
 
     test768.addEventListener("change", handler);
+
+    axios
+      .get("http://localhost:4000/products/Home")
+      .then((response) => {
+        return response;
+      })
+      .then((data) => {
+        if (data.status == 200) {
+          setFeature(data.data.data.feature);
+          setProduct(data.data.data.product);
+          setDemoimg({
+            ...demoimg,
+            demo1: {
+              product: data.data.data.product[0],
+              status: 0,
+            },
+            demo2: {
+              product: data.data.data.product[1],
+              status: 0,
+            },
+            demo3: {
+              product: data.data.data.product[2],
+              status: 0,
+            },
+          });
+        }
+      });
   }, []);
 
-  //fetch data
+  //fetch data\
 
   //SideShow
   let img1 = {
@@ -271,7 +329,9 @@ function Home() {
     },
   });
 
-  //old code
+  const [select, setSelect] = useState(0);
+
+  // //old code
   // const selectedTab = (num) => {
   //   if (num === 0) {
   //     document.querySelector("#tab0").style.color = "black";
@@ -285,13 +345,30 @@ function Home() {
   //   }
   // };
 
+  //Hover demo
+
+  const Hoverdemo = (position, status) => {
+    console.log(position, status);
+    if (position === 0) {
+      setDemoimg({ ...demoimg, demo1: { ...demoimg.demo1, status: status } });
+    }
+    if (position === 1) {
+      setDemoimg({ ...demoimg, demo2: { ...demoimg.demo2, status: status } });
+    }
+    if (position === 2) {
+      setDemoimg({ ...demoimg, demo3: { ...demoimg.demo3, status: status } });
+    }
+  };
+
+  console.log(demoimg);
+
   return (
     <div>
       {console.log(screen)}
       <Homestyle>
         <Grid className="Home">
           <Grid container={true} xs={12} className="flex Sideshow">
-            <Carousel>
+            <Carousel interval={3000} infiniteLoop={true}>
               {SideShow.map((val, indx) => {
                 return (
                   <div>
@@ -361,7 +438,7 @@ function Home() {
             <div
               style={tab.style1}
               id="tab0"
-              onClick={() =>
+              onClick={() => {
                 setTab({
                   style1: {
                     color: "black",
@@ -370,15 +447,16 @@ function Home() {
                   style2: {
                     color: "#aaa5a5",
                   },
-                })
-              }
+                });
+                setSelect(0);
+              }}
             >
               PRODUCTS TAB{" "}
             </div>{" "}
             <div style={{ width: "20px" }}></div>{" "}
             <div
               style={tab.style2}
-              onClick={() =>
+              onClick={() => {
                 setTab({
                   style1: {
                     color: "#aaa5a5",
@@ -387,19 +465,26 @@ function Home() {
                   style2: {
                     color: "black",
                   },
-                })
-              }
+                });
+
+                setSelect(1);
+              }}
             >
               FEATURED
             </div>
           </Grid>
-          <Grid container className=" flex   jus-center Main-product ">
-            {/* <Grid
-              xs={scrMainproduct.Container}
+          <Grid
+            style={{ backgroundColor: "#ebebeb", margin: "0 10% 5% 10%" }}
+            container={true}
+            md={10}
+            className=" flex   jus-center Main-product "
+          >
+            <Grid
+              md={scrMainproduct.Container}
               className="flex    Main-product-container"
               items={true}
             >
-              {tab === 0
+              {select === 0
                 ? product.map((item, index) => {
                     return (
                       <Grid
@@ -412,7 +497,7 @@ function Home() {
                       </Grid>
                     );
                   })
-                : featured.map((item, index) => {
+                : feature.map((item, index) => {
                     return (
                       <Grid
                         className="product-items"
@@ -424,11 +509,11 @@ function Home() {
                       </Grid>
                     );
                   })}
-            </Grid> */}
+            </Grid>
           </Grid>
 
           <Grid container={true} className="Look-area">
-            <Grid items={true}>
+            <Grid items={true} md={12}>
               <img
                 src="https://cdn.shopify.com/s/files/1/1521/5776/files/lookbook-bg_a06bc677-d029-4089-b917-f134d8b3b864.png?v=1602829064"
                 className="Look-image"
@@ -447,47 +532,68 @@ function Home() {
                 items={true}
                 xs={3}
                 id="demoplace1"
-                // onMouseEnter={() => Hoverdemo(0, 0)}
-                // onMouseLeave={() => Hoverdemo(0, 1)}
+                onMouseEnter={() => Hoverdemo(0, 1)}
+                onMouseLeave={() => Hoverdemo(0, 0)}
               >
                 {" "}
                 <button id="btndemo1" className="Demo-img">
                   1
                 </button>
-                {/* <div id="demoimg1">
-                  <MultipleCards {...demo1}></MultipleCards>
-                </div> */}
+                <div
+                  style={demoimg.demo1.status == 0 ? hide : unhide}
+                  id="demoimg1"
+                >
+                  <Grid>
+                    {isEmptyObject(demoimg.demo1.product) == false ? (
+                      <MultipleCards {...demoimg.demo1.product} />
+                    ) : null}
+                  </Grid>
+                </div>
               </Grid>
 
               <Grid
                 items={true}
                 xs={3}
                 id="demoplace2"
-                // onMouseEnter={() => Hoverdemo(1, 0)}
-                // onMouseLeave={() => Hoverdemo(1, 1)}
+                onMouseEnter={() => Hoverdemo(1, 1)}
+                onMouseLeave={() => Hoverdemo(1, 0)}
               >
                 <button id="btndemo2" className="Demo-img">
                   2
                 </button>
-                {/* <div id="demoimg2">
-                  <MultipleCards {...demo2}></MultipleCards>
-                </div> */}
+                <div
+                  style={demoimg.demo2.status == 0 ? hide : unhide}
+                  id="demoimg2"
+                >
+                  <Grid>
+                    {isEmptyObject(demoimg.demo2.product) == false ? (
+                      <MultipleCards {...demoimg.demo2.product} />
+                    ) : null}
+                  </Grid>
+                </div>
               </Grid>
 
               <Grid
                 items={true}
                 xs={3}
                 id="demoplace3"
-                // onMouseEnter={() => Hoverdemo(2, 0)}
-                // onMouseLeave={() => Hoverdemo(2, 1)}
+                onMouseEnter={() => Hoverdemo(2, 1)}
+                onMouseLeave={() => Hoverdemo(2, 0)}
               >
                 <button id="btndemo3" className="Demo-img">
                   3
                 </button>
 
-                {/* <div id="demoimg3">
-                  <MultipleCards {...demo3}></MultipleCards>
-                </div> */}
+                <div
+                  style={demoimg.demo3.status == 0 ? hide : unhide}
+                  id="demoimg3"
+                >
+                  <Grid>
+                    {isEmptyObject(demoimg.demo3.product) == false ? (
+                      <MultipleCards {...demoimg.demo3.product} />
+                    ) : null}
+                  </Grid>
+                </div>
               </Grid>
             </Grid>
           </Grid>
@@ -496,9 +602,9 @@ function Home() {
             xs={12}
             className="flex Discount-area jus-center "
           >
-            <Grid items={true} id="discount1" className="bd " xs={3}></Grid>
-            <Grid items={true} id="discount2" className="bd" xs={3}></Grid>
-            <Grid items={true} id="discount3" className="bd" xs={3}></Grid>
+            <Grid items={true} id="discount1" className=" " xs={3}></Grid>
+            <Grid items={true} id="discount2" className="" xs={3}></Grid>
+            <Grid items={true} id="discount3" className="" xs={3}></Grid>
           </Grid>
 
           <Grid className="flex  al-center jus-center">
@@ -583,19 +689,19 @@ function Home() {
             </Grid>
             <Grid xs={1}></Grid>
           </Grid>
-          <Grid className="flex jus-center Collection">
+          {/* <Grid className="flex jus-center Collection">
             <h3>TOP 3</h3>
           </Grid>
           <Grid container={true} className="Top3 flex jus-center   ">
-            {/* {top3.map((val, indx) => {
+            {top3.map((val, indx) => {
               return (
                 <Grid items={true}>
                   {" "}
                   <MultipleCards {...val} key={indx}></MultipleCards>
                 </Grid>
               );
-            })} */}
-          </Grid>
+            })}
+          </Grid> */}
 
           <Grid container={true} className="flex jus-center al-center  ">
             <Grid items={true} xs={3} className="serviecslogan">
@@ -704,7 +810,7 @@ function Home() {
               />
             </Grid>
           </Grid>
-          <Grid className=" flex col  al-center jus-center Customersay">
+          {/* <Grid className=" flex col  al-center jus-center Customersay">
             <h3>WHAT CUSTOMERS ARE SAYING</h3>
             <Grid container={true} xs={8} className="flex jus-center">
               <Grid xs={3} className="comment-box">
@@ -732,7 +838,7 @@ function Home() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid className="Follow"></Grid>
+          <Grid className="Follow"></Grid> */}
         </Grid>
       </Homestyle>
     </div>

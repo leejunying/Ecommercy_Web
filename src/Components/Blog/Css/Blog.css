@@ -1,0 +1,18 @@
+.Blog {
+  height: 100vh;
+  padding: 5%;
+  text-align: center;
+}
+
+.Blog-item {
+  width: 30vw;
+  height: 300px;
+  border: 1px solid gray;
+}
+
+.Blog-container {
+  width: 100%;
+  height: auto;
+
+  margin-bottom: 15%;
+}

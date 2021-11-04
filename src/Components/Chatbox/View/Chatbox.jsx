@@ -25,14 +25,14 @@ const Styles = style.div`
 `;
 
 const Chatbox = () => {
-  const [admin, setAdmin] = useState("");
+  const [admin, setAdmin] = useState({});
 
   const [newmessage, setNewmessage] = useState({});
 
   const [message, setMessage] = useState([]);
 
   const [mysend, setMysend] = useState({
-    Userya: "Guest",
+    User: "Guest",
     Room: 0,
     Message: "",
   });
@@ -44,35 +44,59 @@ const Chatbox = () => {
   const socket = useRef();
 
   useEffect(() => {
-    //Connect and create new Room and set default data for send
-    socket.current = socketIOClient.connect(host);
+    var room;
+    axios
+      .get("http://localhost:4000/chatbox/Currentroom")
+      .then((res) => {
+        return res.data;
+      })
+      .then((response) => {
+        setMysend({
+          ...mysend,
+          Room: response.Room,
+        });
 
-    socket.current.emit(`Client`, "Client");
+        room=response.Room
 
-    socket.current.on("Newroom", (room) => {
-      setMysend({
-        User: `Guest_${room.Room}`,
-        Room: `${room.Room}`,
-        Message: "",
+        console.log(message);
+
+        socket.current = socketIOClient.connect(host);
+
+        socket.current.emit(`Client`, "Client");
+    
+        socket.current.on("admin_status", (status) => {
+          setAdmin(status);
+        });
+    
+        socket.current.on(`admin_${room}`,(message)=>{
+    
+         setMessage(prestate=>[...prestate,message])
+        })
+        socket.current.on('disconnect', function(){
+           
       });
-    });
-    socket.current.on("admin_status", (status) => {
-      setAdmin(status);
-    });
 
-    console.log(message);
-  }, []);
 
-  useEffect(() => {
-    socket.current.on(`admin_${mysend.Room}`, (data) => {
-      setNewmessage(data);
-    });
-  }, [mysend]);
+      })
 
+      .catch((error) => {
+        console.error(error);
+      });
+      
+             
+   
+      
+
+  
+  
+  
+    }, []);
+
+ 
+ 
+ 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-
-    setMessage([...message, newmessage]);
   }, [newmessage]);
 
   const handleMymessage = (e) => {
@@ -88,7 +112,9 @@ const Chatbox = () => {
         Message: mysend.Message,
       });
 
+      console.log(mysend);
       setNewmessage(mysend);
+      setMessage((prestate) => [...prestate, mysend]);
       //Clear input
       setMysend({ ...mysend, Message: "" });
     }
@@ -103,6 +129,7 @@ const Chatbox = () => {
       Message: mysend.Message,
     });
     setNewmessage(mysend);
+    setMessage((prestate) => [...prestate, mysend]);
 
     //Clear input
     setMysend({ ...mysend, Message: "" });
@@ -111,7 +138,7 @@ const Chatbox = () => {
   return (
     <Fragment>
       <Styles>
-        <Grid container={true} md={12} className="flex jus-end Chatbox">
+        <Grid container={true} md={3} className="  flex jus-end Chatbox">
           <Grid items={true} className="box_container">
             <Grid
               items={true}
@@ -136,36 +163,34 @@ const Chatbox = () => {
                   ></i>
                 </div>
               )}
-              <i className="far fa-window-close"
-                onClick={()=>{
-
-
-                  document.querySelector(".fa-comment-dots").style.display="block"
-                  document.querySelector(".Chatbox").style.opacity=0
-
-
-
+              <i
+                className="far fa-window-close"
+                onClick={() => {
+                  document.querySelector(".fa-comment-dots").style.display =
+                    "block";
+                  document.querySelector(".Chatbox").style.opacity = 0;
                 }}
-              
               ></i>
             </Grid>
 
             <Grid container={true} className="box_warapper flex col sp-between">
-              <Grid className="box_show">
-                {message
-                  .filter((data) => data.Room == mysend.Room)
-                  .map((data) => {
-                    return (
-                      <div ref={scrollRef}>
-                        {data.User == "admin" ? (
-                          <div className="row">
-                            <div className="you">{data.Message}</div></div>
-                        ) : (
-                          <div className="row"><div className="me">{data.Message}</div> </div>
-                        )}
-                      </div>
-                    );
-                  })}
+              <Grid className="flex col box_show">
+               
+                {message.map((data, indx) => {
+                  return data != undefined ? (
+                    <div ref={scrollRef}>
+                      {data.User == "Guest" ? (
+                        <div className="me">
+                          <div className="message1">{data.Message}</div>{" "}
+                        </div>
+                      ) : (
+                        <div className="flex jus-end">
+                          <div className="message2">{data.Message}</div>
+                        </div>
+                      )}
+                    </div>
+                  ) : null;
+                })}
               </Grid>
             </Grid>
 
