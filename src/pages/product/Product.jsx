@@ -267,17 +267,15 @@ export default function Product(match) {
           </Grid>
 
           <Grid className="flex col editrow">
-              <label>Stock</label>
-          <TextField
-                  id="outlined-basic"
-                  label={product.stock}
-                  variant="outlined"
-                  type="number"
-                  placeholder={product.stock}
-                  onChange={(e) => setStock(e.target.value)}
-                />
-
-
+            <label>Stock</label>
+            <TextField
+              id="outlined-basic"
+              label={product.stock}
+              variant="outlined"
+              type="number"
+              placeholder={product.stock}
+              onChange={(e) => setStock(e.target.value)}
+            />
           </Grid>
           <Grid className="flex col editrow">
             <label>Product Type</label>
@@ -430,6 +428,13 @@ export default function Product(match) {
                 value={`grey`}
               >
                 <label>GREY</label>
+              </MenuItem>
+
+              <MenuItem
+                
+                value={``}
+              >
+                <label>None</label>
               </MenuItem>
             </Select>
           </Grid>

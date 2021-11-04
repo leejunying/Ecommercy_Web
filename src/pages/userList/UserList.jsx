@@ -1,15 +1,13 @@
- 
-
 import React from "react";
 import "./userList.css";
-  import { DeleteOutline } from "@material-ui/icons";
+import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
- import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import axios from 'axios'
+import axios from "axios";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -23,14 +21,14 @@ const columns = [
   { id: "name", label: "NAME", minWidth: "5%" },
   { id: "email", label: "Email", minWidth: "10%" },
   { id: "level", label: "Level", minWidth: "5%" },
-   { id: "transaction", label: "Transaction", minWidth: "5%" },
+  { id: "transaction", label: "Transaction", minWidth: "5%" },
   { id: "action", label: "ACTION", minWidth: "10%" },
 ];
 
 export default function UserList() {
   const users = useSelector((state) => state.users);
 
-  const [data,setData]=useState(users)
+  const [data, setData] = useState(users);
 
   const [page, setPage] = useState(0);
 
@@ -45,24 +43,26 @@ export default function UserList() {
     setPage(0);
   };
 
-
-  const handleDelete = (indx) => {
-  
- 
-   
-
-
-  };
+  const handleDelete = (indx) => {};
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
+  const sumpayment = (history) => {
+    let listamount = history.map((items) => {
+      return items.Amount;
+    });
 
-  let listransaction=users.map(data=> { return data.History.map(items=>{return items.Amount   })})
+    // let transaction = listamount.map((value) => {
+    //   return value.reduce((a, b) => a + b, 0);
+    // });
 
+    const reducer = (previousValue, currentValue) =>
+      previousValue + currentValue;
 
- let transaction=listransaction.map(value=>{return value.reduce((a,b)=>a+b,0)}) 
- 
-   
-  
+    let transaction = listamount.reduce(reducer);
+    console.log(history);
+    return transaction;
+  };
+
  
 
   const useStyles = makeStyles({
@@ -80,15 +80,10 @@ export default function UserList() {
   });
   const classes = useStyles();
 
- 
-
   return (
     <div className="userList">
-
-
-<Paper className="flex paper-products  col  ">
+      <Paper className="flex paper-products  col  ">
         <Grid className="toppage flex sp-between">
- 
           <TablePagination
             rowsPerPageOptions={[1, 8]}
             component="div"
@@ -119,28 +114,40 @@ export default function UserList() {
                 return (
                   <TableRow hover role="checkbox" tabIndex={1} key={row._id}>
                     <TableCell>
-                      <label>{row.Fristname}{" "}{row.Lastname}</label>{" "}
+                      <label>
+                        {row.Fristname} {row.Lastname}
+                      </label>{" "}
                     </TableCell>
-                    <TableCell>
-                      {row.Email}
-                    </TableCell>
+                    <TableCell>{row.Email}</TableCell>
 
-                    <TableCell> 
+                    <TableCell>
                       {" "}
                       <label>{row.Level}</label>{" "}
                     </TableCell>
 
-                  
-                   
                     <TableCell>
                       {" "}
-                      <label>{transaction}</label>{" "}
+                      <label>
+                        {row.History.length > 0
+                          ? sumpayment(row.History)
+                          : null}
+                      </label>{" "}
                     </TableCell>
 
-                    <TableCell style={{position:"relative"}} className="flex col sp-between">
-                  <Link to={`/user/${indx}`}>   <SettingsIcon color="primary"  /></Link> 
+                    <TableCell
+                      style={{ position: "relative" }}
+                      className="flex col sp-between"
+                    >
+                      <Link to={`/user/${indx}`}>
+                        {" "}
+                        <SettingsIcon color="primary" />
+                      </Link>
 
-                      <DeleteOutline style={{cursor:"pointer"}}  onClick={()=>handleDelete(indx)} color="secondary" />
+                      <DeleteOutline
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleDelete(indx)}
+                        color="secondary"
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -149,8 +156,6 @@ export default function UserList() {
           </Table>
         </TableContainer>
       </Paper>
-
-       
     </div>
   );
 }

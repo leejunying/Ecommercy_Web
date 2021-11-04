@@ -18,6 +18,8 @@ import NewUser from "./pages/newUser/NewUser";
 import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
+import Post from "./pages/Post/Post";
+import Blogs from "./pages/Blogs/Blogs";
 import { getdata } from "./Redux";
 
 import { persistor, store } from "./Redux/store";
@@ -86,6 +88,7 @@ function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <div className="App">
+          {" "}
           {isLogin == false ? (
             <Grid container={true} md={12} className="flex jus-center Login">
               <Grid
@@ -94,15 +97,14 @@ function App() {
                 className=" flex  sp-between  container"
               >
                 <Grid className="flex ">
-                  <img src={"./login.jpg"}></img>
+                  <img src={"./login.jpg"}> </img>{" "}
                   <Grid container={true} md={6} className="flex col form">
                     <img
                       style={{ width: "100%" }}
                       src={
                         "//cdn.shopify.com/s/files/1/1521/5776/t/90/assets/fastor4logo.png?v=10652948907752684887"
                       }
-                    ></img>
-
+                    ></img>{" "}
                     <Grid
                       items={true}
                       className="flex col   sp-between login-input"
@@ -110,21 +112,21 @@ function App() {
                       <TextField
                         label="Account"
                         onChange={(e) => handleChange(e, "acc")}
-                      />
+                      />{" "}
                       <TextField
                         id="standard-password-input"
                         label="Password"
                         type="password"
                         autoComplete="current-password"
                         onChange={(e) => handleChange(e, "pass")}
-                      />
+                      />{" "}
                       <Button size="large" variant="outlined" color="primary">
-                        Submit
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
+                        Submit{" "}
+                      </Button>{" "}
+                    </Grid>{" "}
+                  </Grid>{" "}
+                </Grid>{" "}
+              </Grid>{" "}
             </Grid>
           ) : (
             <Grid className="Dashboard">
@@ -135,13 +137,13 @@ function App() {
                   <Switch>
                     <Route exact path="/">
                       <Home />
-                    </Route>
+                    </Route>{" "}
                     <Route path="/users">
                       <UserList />
-                    </Route>
+                    </Route>{" "}
                     <Route exact path="/Chat">
                       <Chatbox />
-                    </Route>
+                    </Route>{" "}
                     <Route
                       exact={false}
                       path="/user/:userId"
@@ -149,15 +151,13 @@ function App() {
                         // Do whatever you want with the match...
                         return <User match={match} />;
                       }}
-                    />
-
+                    />{" "}
                     <Route path="/newUser">
                       <NewUser />
-                    </Route>
+                    </Route>{" "}
                     <Route exact={true} path="/products">
                       <ProductList />
-                    </Route>
-
+                    </Route>{" "}
                     <Route
                       exact={false}
                       path="/product/:productId"
@@ -165,18 +165,31 @@ function App() {
                         // Do whatever you want with the match...
                         return <Product match={match} />;
                       }}
-                    />
-
+                    />{" "}
                     <Route path="/newproduct">
                       <NewProduct />
-                    </Route>
-                  </Switch>
-                </div>
-              </Router>
+                    </Route>{" "}
+                    <Route exact={true} path="/Post">
+                      <Post />
+                    </Route>{" "}
+                    <Route
+                      exact={false}
+                      path="/Post/:postId"
+                      render={({ match }) => {
+                        // Do whatever you want with the match...
+                        return <Post match={match} />;
+                      }}
+                    />{" "}
+                    <Route path="/Blogs">
+                      <Blogs />
+                    </Route>{" "}
+                  </Switch>{" "}
+                </div>{" "}
+              </Router>{" "}
             </Grid>
-          )}
-        </div>
-      </PersistGate>
+          )}{" "}
+        </div>{" "}
+      </PersistGate>{" "}
     </Provider>
   );
 }

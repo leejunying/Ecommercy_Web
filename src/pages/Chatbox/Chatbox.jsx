@@ -8,25 +8,31 @@ import socketIOClient from "socket.io-client";
 import { Message } from "@material-ui/icons";
 
 export default function Chatbox() {
+  var list;
+
   const scrollRef = useRef();
 
   const Unseen = {
-    backgroundColor: "rgba(45, 58, 231, 0.986)",
+    backgroundColor: "rgba(243, 234, 115, 0.986)",
   };
 
   const Seen = {
-    backgroundcolor: "rgba(245, 245, 245, 0.295)",
+    backgroundcolor: "#21ad78",
+  };
+
+  const offline = {
+    backgroundColor: "rgb(248, 8, 8)",
   };
 
   const [selected, Setselected] = useState(0);
 
   const [listroom, setListroom] = useState([]);
 
+  const [offroom, setOffroom] = useState();
+
   const [listmessage, setListmessage] = useState([]);
 
   const [newmessage, setNewmessage] = useState({});
-
-  const [newroom, setNewroom] = useState({});
 
   const [mysend, setMysend] = useState({
     Room: 0,
@@ -49,29 +55,9 @@ export default function Chatbox() {
         return res.data;
       })
       .then((response) => {
-        //Connect and create new Room and set default data for send
-        socket.current = socketIOClient.connect(host);
-        socket.current.emit("Client", "admin");
-
-        let data = response.Listroom;
-
-        data = data.map((obj) => {
-          return { ...obj, seen: Unseen };
-        });
-
         setListroom(response.Listroom);
+
         setListmessage(response.Listmessage);
-        socket.current.on(`Newroom`, (message) => {
-          setListroom((prestate) => [...prestate, message]);
-        });
-
-        socket.current.on("Client_off", (roomdelete) => {
-          let old = listroom;
-
-          old = old.filter((room) => room.Room != roomdelete);
-
-          setListroom(old);
-        });
       })
 
       .catch((error) => {
@@ -80,24 +66,108 @@ export default function Chatbox() {
   }, []);
 
   useEffect(() => {
-    //New message nofitication
+    socket.current = socketIOClient.connect(host);
+    socket.current.emit("Client", "admin");
+
+    socket.current.on(`Newroom`, (message) => {
+      setListroom((pre) => [...pre, message]);
+    });
+    socket.current.on("Client_off", (roomoffline) => {
+      console.log(roomoffline);
+      setOffroom(roomoffline);
+    });
+    socket.current.on("disconnect", function () {});
+  }, []);
+
+  useEffect(() => {
+    //New message nofitication and update message
+
     listroom.map((data) => {
       socket.current.on(`res_${data.Room}`, (message) => {
         console.log(message);
 
         setNewmessage(message);
-
-        document.querySelector(`#s${message.Room}`).style.backgroundColor =
-          "rgba(241, 58, 58, 0.986)";
       });
     });
   }, [listroom]);
 
   useEffect(() => {
+    let off = offroom || [];
+
+    if (off != "") {
+      // swap down bottom
+
+      setListroom(
+        listroom.map((item, index) => {
+          return item.Room == off
+            ? {
+                Room: item.Room,
+                Participant: item.Participant,
+                Status: "offline",
+                Style: offline,
+              }
+            : item;
+        })
+      );
+    }
+  }, [offroom]);
+
+  useEffect(() => {
     //Load new message
+    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+
+    if (newmessage.User != "admin") {
+      swaproomontop(newmessage.Room);
+    }
+
     setListmessage((prestate) => [...prestate, newmessage]);
-    document.querySelector("#chat").scrollTop = 99999;
   }, [newmessage]);
+
+  const Refresh = () => {
+    let list = listroom;
+    list = list.filter((data) => data.Status != "offline");
+    let allmess = listmessage;
+    allmess.map((data) => list.indexOf(data.Room) == 1);
+
+    Setselected(0);
+    setListmessage(allmess);
+    setListroom(list);
+    let user = { admin: true };
+    axios
+      .post("http://localhost:4000/chatbox/Refresh", user)
+      .then((res) => {
+        return res.data;
+      })
+      .then((response) => {
+        console.log(response);
+      })
+
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const swaproomontop = (roomid) => {
+    let list = listroom;
+
+    try {
+      let foundindx = list.findIndex((allroom) => allroom.Room == roomid);
+
+      console.log(list[foundindx]);
+
+      list.unshift(list[foundindx]);
+
+      list.splice(foundindx + 1, 1);
+
+      list[0].Style = Unseen;
+
+      console.log(list);
+
+      setListroom(list);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleChange = (e) => {
     setMysend({ ...mysend, Message: e.target.value });
@@ -108,7 +178,7 @@ export default function Chatbox() {
       console.log(selected);
 
       //Send event message to Room
-      socket.current.emit(`admin${selected}`, {
+      socket.current.emit(`admin_message`, {
         User: `admin`,
         Room: `${selected}`,
         Message: mysend.Message,
@@ -151,9 +221,12 @@ export default function Chatbox() {
   const selectUser = (room) => {
     Setselected(room);
     setMysend({ ...mysend, Room: room });
+    let list = listroom;
 
-    document.querySelector(`#s${room}`).style.backgroundColor =
-      "rgba(245, 245, 245, 0.295)";
+    let foundindex = list.findIndex((aroom) => aroom.Room == room);
+    if (list[foundindex].Status != "offline") list[foundindex].Style = Seen;
+
+    setListroom(list);
   };
 
   const formatdate = (stringdate) => {
@@ -175,34 +248,34 @@ export default function Chatbox() {
   };
 
   return (
-    <Grid container={true} className=" Chatbox">
+    <Grid container={true} className="flex Chatbox">
       <Grid items={true} md={4} className="List_guest">
-        {listroom.length != 0
-          ? listroom.map((data, indx) => {
-              return (
-                <Grid
-                  id={`s${data.Room}`}
-                  style={data.seen}
-                  onClick={() => selectUser(data.Room)}
-                  items={true}
-                  className="  flex jus-center al-center   user"
-                >
-                  <Grid items={true} md={4} className=" flex jus-center  ">
-                    {" "}
-                    <i className=" fas fa-user-alt"></i>
-                  </Grid>
-                  <Grid items={true} md={8} className="flex col ">
-                    <Grid items={true}>
-                      <h2 className="title">Guest_{data.Room}</h2>
-                    </Grid>
-                    <Grid items={true} className=" status">
-                      {lastmessage(data.Room)}
-                    </Grid>
-                  </Grid>
+        {console.log(listroom)}
+        {listroom.map((data, indx) => {
+          return data != undefined ? (
+            <Grid
+              id={`s${data.Room}`}
+              style={data.Style}
+              onClick={() => selectUser(data.Room)}
+              items={true}
+              className="  flex jus-center al-center   user"
+            >
+              <Grid items={true} md={4} className=" flex jus-center  ">
+                {" "}
+                <i className=" fas fa-user-alt"></i>
+              </Grid>
+              <Grid items={true} md={8} className="flex col ">
+                <Grid className="flex sp-between" items={true}>
+                  <h2 className="title">Guest_{data.Room}</h2>
+                  <label style={{ color: "white" }}>{data.Status}</label>
                 </Grid>
-              );
-            })
-          : null}
+                <Grid items={true} className=" status">
+                  {lastmessage(data.Room)}
+                </Grid>
+              </Grid>
+            </Grid>
+          ) : null;
+        })}
       </Grid>
 
       <Grid items={true} md={6} className=" Message_box">
@@ -221,52 +294,60 @@ export default function Chatbox() {
               .sort((a, b) => b.date - a.date)
               .filter((room) => parseInt(room.Room) == selected)
               .map((data) => {
-                return data.User != "admin" ? (
-                  <li className="you">
-                    <div className="entete">
-                      <span className="status green"></span>
-                      <h2>{data.User}</h2>
-                      <h3>{`${formatdate(data.create_date).day}/${
-                        formatdate(data.create_date).month
-                      }&nbsp${formatdate(data.create_date).hours}:${
-                        formatdate(data.create_date).minute
-                      }`}</h3>
-                    </div>
-                    <div className="triangle"></div>
-                    <div className="message">{data.Message}</div>
-                  </li>
-                ) : (
-                  <li className="me">
-                    <div class="entete">
-                      <h3>{data.User}</h3>
-                      <h2>{data.create_date}</h2>
-                      <span class="status blue"></span>
-                    </div>
-                    <div className="triangle"></div>
-                    <div className="message">{data.Message}</div>
-                  </li>
+                return (
+                  <div ref={scrollRef}>
+                    {data.User != "admin" ? (
+                      <li className="you">
+                        <div className="entete">
+                          <span className="status green"></span>
+                          <h2>{data.User}</h2>
+                          <h3>{`${formatdate(data.create_date).day}/${
+                            formatdate(data.create_date).month
+                          }" "${formatdate(data.create_date).hours}:${
+                            formatdate(data.create_date).minute
+                          }`}</h3>
+                        </div>
+                        <div className="triangle"></div>
+                        <div className="message">{data.Message}</div>
+                      </li>
+                    ) : (
+                      <li className="me">
+                        <div class="entete">
+                          <h3>{data.User}</h3>
+                          <h2>{data.create_date}</h2>
+                          <span class="status blue"></span>
+                        </div>
+                        <div className="triangle"></div>
+                        <div className="message">{data.Message}</div>
+                      </li>
+                    )}
+                  </div>
                 );
               })}
           </ul>
         </Grid>
 
-        <Grid items={true} className="flex jus-center al-center box_input">
+        <Grid items={true} className=" flex jus-center al-center box_input">
           <input
             value={mysend.Message}
             placeholder="Aa"
-            className="input"
+            className=" input"
             onChange={(e) => handleChange(e)}
             onKeyPress={(e) => handlekeyPress(e)}
-            onClick={() =>
-              selected != 0
-                ? (document.querySelector(
-                    `#s${selected}`
-                  ).style.backgroundColor = "rgba(245, 245, 245, 0.295)")
-                : " "
-            }
           ></input>{" "}
           <i onClick={() => handleClick()} className="far fa-paper-plane"></i>
         </Grid>
+      </Grid>
+
+      <Grid items={true} md={2} className="flex jus-center  ">
+        <button
+          onClick={() => {
+            Refresh();
+          }}
+          className="btnRefresh"
+        >
+          Refresh room
+        </button>
       </Grid>
     </Grid>
   );

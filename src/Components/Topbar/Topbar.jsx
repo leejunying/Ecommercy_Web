@@ -8,6 +8,8 @@ import { NotificationsNone, Language, Settings } from "@material-ui/icons";
 import {useDispatch, useSelector} from"react-redux"
 import { getdata } from '../../Redux';
 
+
+import DATA from "../../API/Api"
  const  Topbar=()=>{
 
      const dispatch = useDispatch()
@@ -56,22 +58,24 @@ useEffect(()=>{
 const Get_Data=()=>{
 
 
-  axios
- .get("http://localhost:4000/admin/data")
- .then((res) => {
-   return res.data;
- })
- .then((data) => { 
+//   axios
+//  .get("http://localhost:4000/admin/data")
+//  .then((res) => {
+//    return res.data;
+//  })
+//  .then((data) => { 
 
-  if(data!="")
-  {
-  dispatch(getdata(data[1],data[2],data[0]))
+//   if(data!="")
+//   {
+//   dispatch(getdata(data[1],data[2],data[0],data[3]))
 
- }
-   })
- .catch((error) => {
-   console.error(error);
- });
+//  }
+//    })
+//  .catch((error) => {
+//    console.error(error);
+//  });
+
+
 
 
 }

@@ -1,6 +1,6 @@
 import "./newProduct.css";
 import React from "react";
-import axios from 'axios';
+import axios from "axios";
 
 import Grid from "@material-ui/core/Grid";
 import ImageIcon from "@material-ui/icons/Image";
@@ -11,16 +11,15 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
-import Resizer from "react-image-file-resizer";
 
 export default function NewProduct() {
   const [images, setImages] = useState([]);
-  const [testimg,settestimg] =useState("")
+  const [testimg, settestimg] = useState("");
   const [info, setInfor] = useState({
     Name: "",
     Brand: "",
     Type: "",
-    Describe:"",
+    Describe: "",
   });
 
   const [color, setColor] = useState({
@@ -78,20 +77,21 @@ export default function NewProduct() {
     7: false,
   });
 
-   const [err1,setError1]=useState("")
-   const [err2,setError2]=useState("")
-   const [err3,setError3]=useState("")
+  const [err1, setError1] = useState("");
+  const [err2, setError2] = useState("");
+  const [err3, setError3] = useState("");
 
-   const [err4,setError4]=useState("")
-
+  const [err4, setError4] = useState("");
 
   //infobox1
 
   const onChangeinfo = (e, item) => {
     if (item == "Name") setInfor({ ...info, Name: e.target.value });
     if (item == "Type") setInfor({ ...info, Type: e.target.value });
-    if (item == "Brand") setInfor({ ...info, Brand: e.target.value });
-    if(item=="Des") setInfor({...info,Describe:e.target.value})
+    if (item == "Brand") {
+      setInfor({ ...info, Brand: e.target.value });
+    }
+    if (item == "Des") setInfor({ ...info, Describe: e.target.value });
   };
 
   // selected image list
@@ -149,88 +149,88 @@ export default function NewProduct() {
     //Filter priceSize have value
 
     var arrSize = priceSize;
-arrSize=    arrSize.filter((value) => value.Price != "");
+    arrSize = arrSize.filter((value) => value.Price != "");
 
     let box1 = document.querySelector(".box1").style;
     let box2 = document.querySelector(".box2").style;
     let box3 = document.querySelector(".box3").style;
     let box4 = document.querySelector(".box4").style;
 
+    console.log(arrinfo);
+
     if (arrinfo.length < 3) {
       box1.border = "1px solid red";
-      setError1(  "Have empty value " );
+      setError1("Have empty value ");
     }
     if (arrcolor.length == 0) {
       box2.border = "1px solid red";
-      setError2(  "Minimum have one Color " );
+      setError2("Minimum have one Color ");
     }
 
     if (images.length == 0) {
       box3.border = "1px solid red";
-      setError3(  "Minimum have one Images" );
+      setError3("Minimum have one Images");
     }
 
     if (arrSize.length == 0) {
       box4.border = "1px solid red";
-      setError4("Minimum have one Size " );
+      setError4("Minimum have one Size ");
     }
 
+    if (arrinfo.length == 3) {
+      box1.border = "none";
+      setError1("");
+    }
+    if (arrcolor.length > 0) {
+      box2.border = "none";
+      setError2("");
+    }
+    if (images.length > 0) {
+      box3.border = "none";
+      setError3("");
+    }
 
+    if (arrSize.length > 0) {
+      box4.border = "none";
+      setError4("");
+    }
 
-    
-
-    if (
-      arrinfo.length >=3 &&
-      arrcolor.length > 0 &&
-      images.length > 0 &&
-      arrSize.length > 0
-    ) {
-
-      //Clear error
-      setError1("")
-      setError2("")
-      setError3("")
-      setError4("")
-
+    if (err1 == "" && err2 == "" && err3 == "" && err4 == "") {
       //config images
+      console.log(arrinfo, arrSize, arrcolor);
 
-      let arrimages=images
+      let arrimages = images;
 
-      arrimages=arrimages.map(data=>{return   data.data_url})
-      
-   
+      arrimages = arrimages.map((data) => {
+        return data.data_url;
+      });
 
- 
-     axios
-         .post("http://localhost:4000/products/add", {
-          Name:arrinfo[0],
-          Discount:0,
-          Status:"New",
-          Type:arrinfo[1],
-          Brand:arrinfo[2],
-          Describe:arrinfo[3],
-          Price:arrSize[0].Price,
-          Pic:arrimages,
-          Size:arrSize,
-          Color:arrcolor,
-
-
-         })
-         .then((res) => {
-           return res.data;
-         })
-         .then((data) => { 
-      
-          settestimg(data.Pic)
-         })
-         .catch((error) => {
-           console.error(error);
-         });
- 
-      
-
-
-
+      axios
+        .post("http://localhost:4000/products/add", {
+          Name: info.Name.trim(),
+          Discount: 0,
+          Status: "New",
+          Type: info.Type,
+          Brand: info.Brand.trim(),
+          Describe: info.Describe,
+          Price: arrSize[0].Price,
+          Pic: arrimages,
+          Size: arrSize,
+          Color: arrcolor,
+        })
+        .then((res) => {
+          return res.data;
+        })
+        .then((data) => {
+          if ((data.status = 200)) {
+            setInfor({ ...info, Name: "", Brand: "", Type: "", Describe: "" });
+            setColor({ ...color, color1: "", color2: "", color3: "" });
+            setImages([]);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
   return (
@@ -253,6 +253,7 @@ arrSize=    arrSize.filter((value) => value.Price != "");
               id="standard-required"
               label="Required"
               placeholder="Product Name"
+              value={info.Name}
             />
           </div>
 
@@ -264,25 +265,28 @@ arrSize=    arrSize.filter((value) => value.Price != "");
               id="standard-required"
               label="Required"
               placeholder="Product Type "
+              value={info.Type}
             />
           </div>
           <div className="addProductItem">
-            <label>Brand</label>
-            <TextField
-              onChange={(e) => onChangeinfo(e, "Brand")}
+            <InputLabel id="demo-simple-select-helper-label">Brand</InputLabel>
+            <Select
               required
-              id="standard-required"
-              label="Required"
-              placeholder="Product Brand"
-            />
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              value={info.Brand}
+              onChange={(e) => onChangeinfo(e, "Brand")}
+            >
+              <MenuItem value={"Adidas"}>ADIDAS</MenuItem>
+              <MenuItem value={"Puma"}>PUMA</MenuItem>
+              <MenuItem value={"Converse"}>CONVERSE</MenuItem>
+              <MenuItem value={"Dc"}>DC</MenuItem>
+              <MenuItem value={"Nike"}>NiKE</MenuItem>{" "}
+            </Select>
           </div>
         </Grid>
 
-        <Grid
-          items={true}
-          md={3}
-          className="box2 flex col     addProductForm"
-        >
+        <Grid items={true} md={3} className="box2 flex col     addProductForm">
           <div className="addProductItem">
             <span className="error">{err2}</span>
             <InputLabel>Color: 1</InputLabel>
@@ -340,6 +344,9 @@ arrSize=    arrSize.filter((value) => value.Price != "");
                 value={`grey`}
               >
                 <label>GREY</label>
+              </MenuItem>
+              <MenuItem value={``}>
+                <label>None</label>
               </MenuItem>
             </Select>
           </div>
@@ -475,11 +482,10 @@ arrSize=    arrSize.filter((value) => value.Price != "");
               value={images}
               onChange={onChange}
               maxNumber={maxNumber}
-              resolutionType='absolute'
+              resolutionType="absolute"
               resolutionWidth={300}
               resolutionHeight={300}
-               dataURLKey="data_url"
-    
+              dataURLKey="data_url"
             >
               {({
                 imageList,
@@ -490,9 +496,7 @@ arrSize=    arrSize.filter((value) => value.Price != "");
                 errors,
                 isDragging,
                 dragProps,
-              }) => ( 
-             
-     
+              }) => (
                 // write your building UI
                 <Grid
                   container={true}
@@ -536,7 +540,7 @@ arrSize=    arrSize.filter((value) => value.Price != "");
                         className="image-item"
                       >
                         <img
-                          src={image['data_url']}
+                          src={image["data_url"]}
                           alt=""
                           width="150"
                           height="250px"
@@ -563,8 +567,10 @@ arrSize=    arrSize.filter((value) => value.Price != "");
                       </Grid>
                     ))}
                   </Grid>
-                      {errors!=undefined?<p>Your resolution need to resize 300 X 300 for upload</p>:null}
-                  </Grid>
+                  {errors != undefined ? (
+                    <p>Your resolution need to resize 300 X 300 for upload</p>
+                  ) : null}
+                </Grid>
               )}
             </ImageUploading>
           </Grid>
@@ -620,12 +626,12 @@ arrSize=    arrSize.filter((value) => value.Price != "");
             className="addProductItem"
           >
             <label>Describe</label>
-            <textarea 
-
-              onChange={(e)=>onChangeinfo(e,'Des')}
+            <textarea
+              onChange={(e) => onChangeinfo(e, "Des")}
               style={{ resize: "none", outlineStyle: "none", padding: "10px" }}
               rows="4"
               cols="50"
+              value={info.Describe}
             ></textarea>
           </Grid>
 
@@ -638,8 +644,7 @@ arrSize=    arrSize.filter((value) => value.Price != "");
             >
               Create
             </button>
-
-           </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

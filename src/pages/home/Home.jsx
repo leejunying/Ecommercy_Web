@@ -4,8 +4,12 @@ import "./home.css";
 import { userData } from "../../dummyData";
 import WidgetSm from "../../Components/widgetSm/WidgetSm";
 import WidgetLg from "../../Components/widgetLg/WidgetLg";
-
+import {store} from "../../Redux/store"
+import { GET_DATA } from "../../Redux/Data/dataTypes";
 export default function Home() {
+
+  store.dispatch({type:GET_DATA})
+ 
   return (
     <div className="home">
       <FeaturedInfo />
