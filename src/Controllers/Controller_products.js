@@ -6,7 +6,11 @@ const Add = async (data) => {
     const newproduct = new Products_Model(data);
     await newproduct.save();
 
-    return newproduct;
+    if (newproduct)
+      return {
+        status: 200,
+        message: "Add new product successfully",
+      };
   } catch (err) {
     return {
       status: 0,
@@ -94,6 +98,20 @@ const pageination = async (objquery) => {
   return { product: product, totalpage: total, count };
 };
 
+const Product_tab_feature = async () => {
+  try {
+    const Feature = await Products_Model.find()
+      .limit(8)
+      .sort({ create_date: -1 });
+
+    const Product = await Products_Model.find({
+      Price: { $gte: 200, $lte: 2000 },
+    }).limit(8);
+
+    return { status: 200, data: { feature: Feature, product: Product } };
+  } catch (err) {}
+};
+
 module.exports = {
   Add,
   Finproducts,
@@ -101,4 +119,5 @@ module.exports = {
   pageination,
   Searchproducts,
   Delete,
+  Product_tab_feature,
 };

@@ -11,11 +11,7 @@ const Getdata = async () => {
 
     let payments = await Payments_Model.find().sort({ create_date: -1 });
 
-    let blogs = await Image_Model.find()
-      .populate("post")
-      .sort({ create_date: -1 });
-
-    return [products, users, payments, blogs];
+    return [products, users, payments];
   } catch (err) {
     return err;
   }
